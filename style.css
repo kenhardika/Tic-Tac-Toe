@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+}
+
+.layerStartModal {
+    /* display: none; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background-color: #fefefe;
+}
+
+.layerModal{
+    max-width: 600px;
+    height: 280px;
+    background-color: #fefefe;
+    position:absolute;
+    top: 0;
+    left: 0;
+    bottom: 200px;
+    right: 0;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.modalStart {
+    font-size: 40px;
+    font-family: 'Lobster', cursive;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+.modalButton {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#modalStartGame {
+    font-family: 'lobster', cursive;
+    font-size: 20px;
+    border-radius: 20px;
+    border: solid 1px black;
+    color: black;
+    background-color: #fefefe;
+    width: 150px;
+    box-shadow: -4px 4px 2px gray;
+    transition: all 0.5s;
+}
+
+#modalStartGame:hover {
+    color: #fefefe;
+    background-color: black;
+}
+
+#modalStartGame:active {
+    transform: translateY(3px);
+    box-shadow: -3px 2px 2px gray;
+}
+
+h1{
+    padding: 5px;
+    text-shadow: -4px 4px 2px gray;
+}
+
+h1:first-child, h1:nth-child(2), h1:nth-child(3) {
+    transition: color 0.5s;
+}
+
+h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
+    color: #ececec;
+    -webkit-text-stroke: black 1px;
+}
