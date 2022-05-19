@@ -118,3 +118,32 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     color: #ececec;
     -webkit-text-stroke: black 1px;
 }
+
+.layerMenu  {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(200px, 400px));
+    grid-template-rows: 20vh 70vh 10vh;
+}
+.headerMenu{
+    grid-column: 1/5;
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 25vw);
+}
+
+.textHeader{
+    grid-column: 1/4;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contentMenu {
+    grid-column: 1/5;
+}
+.footerMenu {
+    grid-column: 1/5;
+}
