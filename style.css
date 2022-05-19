@@ -1,6 +1,15 @@
 * {
     margin: 0;
 }
+:root {
+
+    --background-color-transparent:#f9f9f924;
+
+}
+
+.layerOff {
+    display: none;
+}
 
 .layerStartModal {
     /* display: none; */
@@ -14,6 +23,7 @@
 }
 
 .layerModal{
+    background-image: url(./background-gif.gif);
     max-width: 600px;
     height: 280px;
     background-color: #fefefe;
@@ -30,12 +40,14 @@
     font-size: 40px;
     font-family: 'Lobster', cursive;
     height: 140px;
+    background-color: var(--background-color-transparent);
     display: flex;
     align-items: center;
     justify-content: center;
     }
 
 .modalButton {
+    background-color:var(--background-color-transparent);
     height: 140px;
     display: flex;
     align-items: center;
@@ -51,7 +63,7 @@
     background-color: #fefefe;
     width: 150px;
     box-shadow: -4px 4px 2px gray;
-    transition: all 0.5s;
+    transition: all 0.3s;
 }
 
 #modalStartGame:hover {
@@ -66,7 +78,7 @@
 
 h1{
     padding: 5px;
-    text-shadow: -4px 4px 2px gray;
+    text-shadow: -4px 4px 2px #d4d4d4;
 }
 
 h1:first-child, h1:nth-child(2), h1:nth-child(3) {
