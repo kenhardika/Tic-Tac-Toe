@@ -29,7 +29,7 @@
 }
 
 .layerModal{
-    background-image: url(./background-gif.gif);
+    background-image: url(./Assets/background-gif.gif);
     max-width: 600px;
     height: 300px;
     background-color: #fefefe;
@@ -132,20 +132,89 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
 }
 
 .textHeader{
-    grid-column: 1/4;
+    grid-column: 2/4;
 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.logoProfileHeader img {
+.textHeader h2 {
+    font-size: 30px;
+    font-family: 'Lobster', cursive;
+}
+
+.logoProfileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tictacGif {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tictacGif img {
     width: 50px;
     height: 50px;
 }
 .contentMenu {
     grid-column: 1/5;
+
+    display: grid;
+    grid-template-rows: 15vh 40vh 15vh ;
 }
+
+.contentLayerUsers {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contentLayerUsers button {
+    width: 200px;
+    font-size: 20px;
+    border-radius: 12px;
+    box-shadow: -4px 4px 2px gray;
+    transition: all 0.3s;
+}
+
+.contentLayerUsers button:hover {
+    color: #fefefe;
+    background-color: black;
+}
+
+.contentLayerUsers button:active {
+    transform: translateY(3px);
+    box-shadow: -3px 2px 2px gray;
+}
+
+.contentLayerGame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boardGame {
+    display: grid;
+
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3,100px);
+}
+
+.grid {
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+}
+
 .footerMenu {
     grid-column: 1/5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

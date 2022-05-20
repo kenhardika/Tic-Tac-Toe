@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@200&family=Lobster&family=Nunito:wght@200&family=PT+Sans&family=Sora:wght@300;400&display=swap" rel="stylesheet">
     <script src="./script.js" defer></script>
+    <link rel="shortcut icon" href="./Assets/x-circle.svg" type="image/x-icon">
 </head>
 <body>
     
@@ -33,14 +34,19 @@
     <div class="layerMenu">
 
         <div class="headerMenu">
+                <div class="tictacGif">
+                    <img src="./Assets/tictac.gif" alt="tictactoe">
+                </div>    
                 <div class="textHeader">
                     <h2>
                         Welcome to Tic-Tac-Toe
                     </h2>
                 </div>
-
                 <div class="logoProfileHeader">
-                    <img src="./tictac.gif" alt="tictactoe">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
                 </div>
         </div>        
 
@@ -48,9 +54,15 @@
 
             <div class="contentLayerUsers">
 
+                <button id="vsAIBtn"> Versus AI </button>
+                <button id="vsHumanBtn"> Versus Human </button>
+
             </div>
 
             <div class="contentLayerGame">
+
+                <div class="boardGame">
+                </div>
 
             </div>
 
