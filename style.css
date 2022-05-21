@@ -193,6 +193,11 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     box-shadow: -3px 2px 2px gray;
 }
 
+.btnActive{
+    color: #fefefe;
+    background-color: black;
+}
+
 .contentLayerGame {
     display: flex;
     align-items: center;
@@ -207,6 +212,9 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
 }
 
 .grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid black;
     width: 100px;
     height: 100px;

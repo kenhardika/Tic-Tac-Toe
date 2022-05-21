@@ -19,66 +19,101 @@ function mainMenu() {
     let boardArray = ["not", "empty"];
     const vsAIBtn = document.getElementById('vsAIBtn');
     const vsHumanBtn = document.getElementById('vsHumanBtn');
+    
    
     vsAIBtn.onclick=()=>{ 
-        clearArray();
-        chooseState();
-        gameModes.vsAI();
+        clearState();
+        const playerX = gameModes("player X", "AI");
+        // playerX.playerName();
+        // playerX.playWith();
+        playerX.playGame();
     };
     vsHumanBtn.onclick=()=> {
-        clearArray();
-        chooseState();
-        gameModes.vsHuman();
+        clearState();
+        const playerX = gameModes("player X", "Human");
+        // playerX.playerName();
+        // playerX.playWith();
+        playerX.playGame();
     };
 
-    const gameModes = (() => {
-        function vsAI() {
-            console.log('Versus AI Mode');
-        }
-        function vsHuman() {
-            console.log('Versus Human Mode');
-        }
-        return {
-            vsAI: vsAI,
-            vsHuman: vsHuman
-        }
-    }) ();
+    //game modes using factory
 
-    function clearArray() {
-        if (!boardArray==null) {
-            console.log('Board is not Empty');
+    const gameModes = (name, mode) => {
+        const playerName =() => {console.log(`Your name is ${name}`);}
+        const playWith  = () => { console.log(`You will play against ${mode}`);
+                                return mode }
+        
+        const playGame = () => {
+            chooseState();
+            if (mode=='Human'){
+                //toggle button changes 
+                vsAIBtn.classList.remove('btnActive');
+                vsHumanBtn.classList.add('btnActive');
+                console.log('Youre playing against human');
+            //  gridLayout.forEach((grid)=>{grid.innerText=""})
+            }
+            else{
+                //toggle button changes
+                vsHumanBtn.classList.remove('btnActive');
+                vsAIBtn.classList.add('btnActive');
+                console.log('Youre playing against AI');
+            }
+        }
+
+        return {
+            playerName,
+            playWith, 
+            playGame    
+        }
+
+        }
+
+
+    // const gameModes = (() => {
+    //     function vsAI() {
+    //         console.log('Versus AI Mode');
+    //     }
+    //     function vsHuman() {
+    //         console.log('Versus Human Mode');
+    //     }
+    //     return {
+    //         vsAI: vsAI,
+    //         vsHuman: vsHuman
+    //     }
+    // }) ();
+
+    function clearState() {
             boardArray =[];
-            return checkArray()
+            document.querySelectorAll('.grid').forEach((grid)=>{grid.innerText=""});
+            console.log('Board is Empty, Go Ahead');
         }
-        else{
-            return console.log('Board is Empty, Go Ahead');
-        }
-    }
 
     const boardLayout = () => {
       const boardLay = document.querySelector('.boardGame');
     
-        for ( let i=0; i<3; i++) {
-            for(let j=0; j<3;j++){
+        for ( let i=1; i<=9; i++) {
                 const gridBoard = document.createElement('div');
-                gridBoard.className=`grid ${i}-${j}`;
-                boardLay.append(gridBoard);
-                }
+                gridBoard.className=`grid ${i}`;
+                boardLay.append(gridBoard);                }
             }
-    }
-    
     
     function chooseState() {
         const gridLayout = document.querySelectorAll('.grid');
         for (let i=0; i<gridLayout.length; i++){
-            gridLayout[i].addEventListener('mouseover', ()=>{} );
-            gridLayout[i].addEventListener('click', boxClicked );         
+           gridLayout[i].addEventListener('mouseover', ()=>{} );
+           gridLayout[i].addEventListener('click', boxClicked );         
         }
     }
 
     function boxClicked(e){
         console.log('clicked '+ e.target.className);
-        e.target.style.backgroundColor="blue";
+        if (!e.target.innerText){
+            boardArray.push('X');
+            e.target.innerText="X";
+        }
+
+        console.log(boardArray);
+        return
     }
     boardLayout();
     //chooseState();
