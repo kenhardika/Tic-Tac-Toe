@@ -15,12 +15,19 @@ function startGame() {
 }
 
 function mainMenu() {
+    //button default for gameModes, masih pabalatak
+    let boardArray = ["not", "empty"];
     const vsAIBtn = document.getElementById('vsAIBtn');
     const vsHumanBtn = document.getElementById('vsHumanBtn');
+   
     vsAIBtn.onclick=()=>{ 
+        clearArray();
+        chooseState();
         gameModes.vsAI();
     };
     vsHumanBtn.onclick=()=> {
+        clearArray();
+        chooseState();
         gameModes.vsHuman();
     };
 
@@ -36,21 +43,45 @@ function mainMenu() {
             vsHuman: vsHuman
         }
     }) ();
-    const boardLayout = () => {
-      const boardLay = document.querySelector('.boardGame');
-        
-      for ( let i=0; i<3; i++) {
-          for(let j=0; j<3;j++){
-            const gridBoard = document.createElement('div');
-            //const para = document.createElement('p');
-            gridBoard.className=`grid ${i}-${j}`;
-            //gridBoard.style.border="solid 1px black";
-           // gridBoard.append(para);
-            boardLay.append(gridBoard);
-            }
+
+    function clearArray() {
+        if (!boardArray==null) {
+            console.log('Board is not Empty');
+            boardArray =[];
+            return checkArray()
+        }
+        else{
+            return console.log('Board is Empty, Go Ahead');
         }
     }
 
+    const boardLayout = () => {
+      const boardLay = document.querySelector('.boardGame');
+    
+        for ( let i=0; i<3; i++) {
+            for(let j=0; j<3;j++){
+                const gridBoard = document.createElement('div');
+                gridBoard.className=`grid ${i}-${j}`;
+                boardLay.append(gridBoard);
+                }
+            }
+    }
+    
+    
+    function chooseState() {
+        const gridLayout = document.querySelectorAll('.grid');
+        for (let i=0; i<gridLayout.length; i++){
+            gridLayout[i].addEventListener('mouseover', ()=>{} );
+            gridLayout[i].addEventListener('click', boxClicked );         
+        }
+    }
+
+    function boxClicked(e){
+        console.log('clicked '+ e.target.className);
+        e.target.style.backgroundColor="blue";
+    }
+    boardLayout();
+    //chooseState();
     return {
         gameModes: gameModes,
         boardLayout: boardLayout
