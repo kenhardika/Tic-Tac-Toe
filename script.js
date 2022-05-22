@@ -50,20 +50,21 @@ function mainMenu() {
                 }
             function boxClicked(e){
                 console.log('clicked '+ e.target.className);
-                if(boardArray.length >= 9) {
-                    return console.log(boardArray.length + ' board array full')
-                }              
-                else if(!xTurns) {
-                    boardArray.push(playerO);
-                    e.target.innerText=playerO;
-                    xTurns = true;
+                if (!e.target.innerText) {
+                    if(boardArray.length >= 9) {
+                        return console.log(boardArray.length + ' board array full')
+                    }              
+                    else if(!xTurns) {
+                        boardArray.push(playerO);
+                        e.target.innerText=playerO;
+                        xTurns = true;
+                    }
+                    else{
+                        boardArray.push(playerX);
+                        e.target.innerText=playerX;
+                        xTurns = false;
+                    }
                 }
-                else{
-                    boardArray.push(playerX);
-                    e.target.innerText=playerX;
-                    xTurns = false;
-                }
-        
                 console.log(boardArray);
                 return
             }
@@ -98,7 +99,7 @@ function mainMenu() {
 
 
     function clearState() {
-            boardArray =[];
+            boardArray.length = 0;
             document.querySelectorAll('.grid').forEach((grid)=>{grid.innerText=""});
             console.log('Board is Empty, Go Ahead');
         }
