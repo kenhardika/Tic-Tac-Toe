@@ -79,18 +79,78 @@ function mainMenu() {
                 }
                 //DO CHECK WIN FUNCTIONS
                 //IF WIN GAME START AGAIN FROM CLEAR
-                checkHor(0);
-                checkHor(3);
-                checkHor(6);
-                function checkHor(n) {
-                    if ( (boardArray[n] && boardArray[n+1] && boardArray[n+2]) == "X"){
-                        alert("X WIN");
+                
+                const checkWin = (num1,num2,num3)=> {
+                    const nums = [num1, num2, num3];
+                        function checkHor(){
+                            for(const num of nums){
+                                if ( boardArray[num] == playerX && boardArray[num+1]== playerX && boardArray[num+2]== playerX ){
+                                    alert(`PLAYER ${playerX} WIN!`);
+                                    }
+                                else if ( boardArray[num] == playerO && boardArray[num+1] == playerO && boardArray[num+2] == playerO)
+                                    {
+                                    alert(`PLAYER ${playerO} WIN!`);
+                                    }
+                                else{}
+                            }
+                            return
+                        }       
+                    
+                        function checkVert(){
+                            for(const num of nums){
+                                if ( boardArray[num] == playerX && boardArray[num+3]== playerX && boardArray[num+6]== playerX ){
+                                    alert(`PLAYER ${playerX} WIN!`);
+                                    }
+                                else if ( boardArray[num] == playerO && boardArray[num+3] == playerO && boardArray[num+6] == playerO)
+                                    {
+                                    alert(`PLAYER ${playerO} WIN!`);
+                                    }
+                                else{}
+                            }
+                            return                  
                         }
-                    else if ((boardArray[n] && boardArray[n+1] && boardArray[n+2]) == "O")
-                        {
-                        alert("O WIN");
-                        }
+
+                    return {
+                        checkHor: checkHor,
+                        checkVert: checkVert
                     }
+                
+                }
+                checkWin(0,3,6).checkHor();
+                checkWin(0,1,2).checkVert();
+                
+                
+                
+                // checkHor(0);
+                // checkHor(3);
+                // checkHor(6);
+
+                // function checkHor(num1, num2, num3) {
+                //     const nums = [num1, num2, num3];
+                //         for(const num of nums){
+                //                 if ( boardArray[num] == playerX && boardArray[num+1]== playerX && boardArray[num+2]== playerX ){
+                //                     alert(`PLAYER ${playerX} WIN!`);
+                //                     }
+                //                 else if ( boardArray[num] == playerO && boardArray[num+1] == playerO && boardArray[num+2] == playerO)
+                //                     {
+                //                     alert(`PLAYER ${playerO} WIN!`);
+                //                     }
+                //                 else{}
+                //         }
+                //     return 
+                // }
+                // checkHor(0,3,6);
+
+                // function checkHor(n) {
+                //     if ( boardArray[n] == playerX && boardArray[n+1]== playerX && boardArray[n+2]== playerX ){
+                //         alert(`PLAYER ${playerX} WIN!`);
+                //         }
+                //     else if ( boardArray[n] == playerO && boardArray[n+1] == playerO && boardArray[n+2] == playerO)
+                //         {
+                //         alert(`PLAYER ${playerO} WIN!`);
+                //         }
+                //     else{}
+                //     }
                 console.log(boardArray);
                 return
             }
