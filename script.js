@@ -79,7 +79,18 @@ function mainMenu() {
                 }
                 //DO CHECK WIN FUNCTIONS
                 //IF WIN GAME START AGAIN FROM CLEAR
-                
+                checkHor(0);
+                checkHor(3);
+                checkHor(6);
+                function checkHor(n) {
+                    if ( (boardArray[n] && boardArray[n+1] && boardArray[n+2]) == "X"){
+                        alert("X WIN");
+                        }
+                    else if ((boardArray[n] && boardArray[n+1] && boardArray[n+2]) == "O")
+                        {
+                        alert("O WIN");
+                        }
+                    }
                 console.log(boardArray);
                 return
             }
