@@ -23,64 +23,79 @@ function mainMenu() {
    
     vsAIBtn.onclick=()=>{ 
         clearState();
-        const playerX = gameModes("player X", "AI");
+        const players = gameModes("X","O", "AI");
         // playerX.playerName();
         // playerX.playWith();
-        playerX.playGame();
+        players.playGame();
     };
     vsHumanBtn.onclick=()=> {
         clearState();
-        const playerX = gameModes("player X", "Human");
+        const players = gameModes("X","O", "Human");
         // playerX.playerName();
         // playerX.playWith();
-        playerX.playGame();
+        players.playGame();
     };
 
     //game modes using factory
 
-    const gameModes = (name, mode) => {
-        const playerName =() => {console.log(`Your name is ${name}`);}
-        const playWith  = () => { console.log(`You will play against ${mode}`);
-                                return mode }
+    const gameModes = (playerX, playerO, mode) => {
+        //const playerName =() => {console.log(`Your name is ${playerX}`);}
+        //const playWith  = () => {console.log(`You will play against ${playerY} with ${mode}`);}
+        const chooseState = () => {
+            let xTurns = true;
+            const gridLayout = document.querySelectorAll('.grid');
+                for (let i=0; i<gridLayout.length; i++){
+                    gridLayout[i].addEventListener('mouseover', ()=>{} );
+                    gridLayout[i].addEventListener('click', boxClicked );         
+                }
+            function boxClicked(e){
+                console.log('clicked '+ e.target.className);
+                if(boardArray.length >= 9) {
+                    return console.log(boardArray.length + ' board array full')
+                }              
+                else if(!xTurns) {
+                    boardArray.push(playerO);
+                    e.target.innerText=playerO;
+                    xTurns = true;
+                }
+                else{
+                    boardArray.push(playerX);
+                    e.target.innerText=playerX;
+                    xTurns = false;
+                }
         
+                console.log(boardArray);
+                return
+            }
+        }
+
         const playGame = () => {
             chooseState();
             if (mode=='Human'){
+                //chooseState();
+
                 //toggle button changes 
                 vsAIBtn.classList.remove('btnActive');
                 vsHumanBtn.classList.add('btnActive');
-                console.log('Youre playing against human');
+                console.log(`Youre playing against ${mode}`);
             //  gridLayout.forEach((grid)=>{grid.innerText=""})
             }
             else{
                 //toggle button changes
                 vsHumanBtn.classList.remove('btnActive');
                 vsAIBtn.classList.add('btnActive');
-                console.log('Youre playing against AI');
+                console.log(`Youre playing against ${mode}`);
             }
         }
 
         return {
-            playerName,
-            playWith, 
-            playGame    
+            playGame,
+            chooseState    
         }
 
-        }
+    }
 
 
-    // const gameModes = (() => {
-    //     function vsAI() {
-    //         console.log('Versus AI Mode');
-    //     }
-    //     function vsHuman() {
-    //         console.log('Versus Human Mode');
-    //     }
-    //     return {
-    //         vsAI: vsAI,
-    //         vsHuman: vsHuman
-    //     }
-    // }) ();
 
     function clearState() {
             boardArray =[];
@@ -97,26 +112,29 @@ function mainMenu() {
                 boardLay.append(gridBoard);                }
             }
     
-    function chooseState() {
-        const gridLayout = document.querySelectorAll('.grid');
-        for (let i=0; i<gridLayout.length; i++){
-           gridLayout[i].addEventListener('mouseover', ()=>{} );
-           gridLayout[i].addEventListener('click', boxClicked );         
-        }
-    }
-
-    function boxClicked(e){
-        console.log('clicked '+ e.target.className);
-        if (!e.target.innerText){
-            boardArray.push('X');
-            e.target.innerText="X";
-        }
-
-        console.log(boardArray);
-        return
-    }
+   // function chooseState() {
+        // const gridLayout = document.querySelectorAll('.grid');
+        // for (let i=0; i<gridLayout.length; i++){
+        //    gridLayout[i].addEventListener('mouseover', ()=>{} );
+        //    gridLayout[i].addEventListener('click', boxClicked );         
+        // }
+        
+        // function boxClicked(e){
+        //     console.log('clicked '+ e.target.className);
+        //     if (!e.target.innerText){
+        //         boardArray.push('X');
+        //         e.target.innerText="X";
+        //         console.log(e);
+        //     }
+    
+        //     console.log(boardArray);
+        //     return
+        // }
+    
+    //}
+   
     boardLayout();
-    //chooseState();
+
     return {
         gameModes: gameModes,
         boardLayout: boardLayout
