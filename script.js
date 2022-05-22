@@ -19,7 +19,7 @@ function mainMenu() {
     let boardArray = ["not", "empty"];
     const vsAIBtn = document.getElementById('vsAIBtn');
     const vsHumanBtn = document.getElementById('vsHumanBtn');
-    
+    let playExecuted = false;
    
     vsAIBtn.onclick=()=>{ 
         clearState();
@@ -30,7 +30,7 @@ function mainMenu() {
     };
     vsHumanBtn.onclick=()=> {
         clearState();
-        const players = gameModes("X","O", "Human");
+        const players = gameModes("X","O", "Human", true);
         // playerX.playerName();
         // playerX.playWith();
         players.playGame();
@@ -38,22 +38,26 @@ function mainMenu() {
 
     //game modes using factory
 
-    const gameModes = (playerX, playerO, mode) => {
+    const gameModes = (playerX, playerO, mode, xTurns) => {
         //const playerName =() => {console.log(`Your name is ${playerX}`);}
         //const playWith  = () => {console.log(`You will play against ${playerY} with ${mode}`);}
+        console.log(xTurns + ' iniXturns')
         const chooseState = () => {
-            let xTurns = true;
+            
             const gridLayout = document.querySelectorAll('.grid');
                 for (let i=0; i<gridLayout.length; i++){
                     gridLayout[i].addEventListener('mouseover', ()=>{} );
                     gridLayout[i].addEventListener('click', boxClicked );         
                 }
             function boxClicked(e){
-                console.log('clicked '+ e.target.className);
+                console.log('clicked '+ e.target.className + " " + xTurns);
+                //check if the box already filled
                 if (!e.target.innerText) {
+                    //check if the array is full or the board is already full
                     if(boardArray.length >= 9) {
                         return console.log(boardArray.length + ' board array full')
-                    }              
+                    }
+                    //check if it is the "X" turns              
                     else if(!xTurns) {
                         boardArray.push(playerO);
                         e.target.innerText=playerO;
@@ -71,7 +75,14 @@ function mainMenu() {
         }
 
         const playGame = () => {
-            chooseState();
+            console.log('PlayGame')
+            if (playExecuted == false){
+                chooseState();
+                playExecuted = true;
+            } else {
+
+            }
+            
             if (mode=='Human'){
                 //chooseState();
 
@@ -91,7 +102,7 @@ function mainMenu() {
 
         return {
             playGame,
-            chooseState    
+            chooseState,     
         }
 
     }
