@@ -21,7 +21,7 @@ function mainMenu() {
     const vsHumanBtn = document.getElementById('vsHumanBtn');
     let playExecuted = false;
     
-    
+
 
     vsAIBtn.onclick=()=>{ 
         clearState();
@@ -49,29 +49,37 @@ function mainMenu() {
                 }
             function boxClicked(e){
                 console.log('clicked '+ e.target.className + " " + xTurns);
+                console.log(this.dataset.array); //tinggal pushnya benerin
                 // check if is it the first move by checking the array, if its first move then X turns first.
                 if(boardArray.length == 0) {
                     xTurns = true;
+                    boardArray = ['','','','','','','','',''];
                 }
                 //check if the box already filled
                 if (!e.target.innerText) {
-                    
                     //check if the array is full or the board is already full
-                    if(boardArray.length >= 9) {
-                        return console.log(boardArray.length + ' board array full')
-                    }
+                    // if(boardArray.length >= 100) {
+                    //     return console.log(boardArray.length + ' board array full')
+                    // }
                     //check if it is the "X" turns
-                    else if(!xTurns) {
-                        boardArray.push(playerO);
+                    if(!xTurns) {
+                        console.log(this.dataset.array);
+                        //let idxArray = this.dataset.array;
+                        boardArray.splice(this.dataset.array, 1, playerO);
                         e.target.innerText=playerO;
                         xTurns = true;
                     }
                     else{
-                        boardArray.push(playerX);
+                        console.log(this.dataset.array);
+                        //let idxArray = this.dataset.array;
+                        boardArray.splice(this.dataset.array, 1, playerX);
                         e.target.innerText=playerX;
                         xTurns = false;
                     }
                 }
+                //DO CHECK WIN FUNCTIONS
+                //IF WIN GAME START AGAIN FROM CLEAR
+                
                 console.log(boardArray);
                 return
             }
@@ -118,9 +126,10 @@ function mainMenu() {
     const boardLayout = () => {
       const boardLay = document.querySelector('.boardGame');
     
-        for ( let i=1; i<=9; i++) {
+        for ( let i=0; i<9; i++) {
                 const gridBoard = document.createElement('div');
                 gridBoard.className=`grid ${i}`;
+                gridBoard.dataset.array = `${i}`;
                 boardLay.append(gridBoard);                }
             }
 
