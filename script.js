@@ -20,27 +20,25 @@ function mainMenu() {
     const vsAIBtn = document.getElementById('vsAIBtn');
     const vsHumanBtn = document.getElementById('vsHumanBtn');
     let playExecuted = false;
-   
+    
+    
+
     vsAIBtn.onclick=()=>{ 
         clearState();
-        const players = gameModes("X","O", "AI");
-        // playerX.playerName();
-        // playerX.playWith();
+        const players = gameModes("X","O", "AI", true);
+        
         players.playGame();
     };
     vsHumanBtn.onclick=()=> {
         clearState();
         const players = gameModes("X","O", "Human", true);
-        // playerX.playerName();
-        // playerX.playWith();
+        
         players.playGame();
     };
 
     //game modes using factory
-
     const gameModes = (playerX, playerO, mode, xTurns) => {
-        //const playerName =() => {console.log(`Your name is ${playerX}`);}
-        //const playWith  = () => {console.log(`You will play against ${playerY} with ${mode}`);}
+
         console.log(xTurns + ' iniXturns')
         const chooseState = () => {
             
@@ -51,13 +49,18 @@ function mainMenu() {
                 }
             function boxClicked(e){
                 console.log('clicked '+ e.target.className + " " + xTurns);
+                // check if is it the first move by checking the array, if its first move then X turns first.
+                if(boardArray.length == 0) {
+                    xTurns = true;
+                }
                 //check if the box already filled
                 if (!e.target.innerText) {
+                    
                     //check if the array is full or the board is already full
                     if(boardArray.length >= 9) {
                         return console.log(boardArray.length + ' board array full')
                     }
-                    //check if it is the "X" turns              
+                    //check if it is the "X" turns
                     else if(!xTurns) {
                         boardArray.push(playerO);
                         e.target.innerText=playerO;
@@ -104,10 +107,7 @@ function mainMenu() {
             playGame,
             chooseState,     
         }
-
     }
-
-
 
     function clearState() {
             boardArray.length = 0;
@@ -123,30 +123,8 @@ function mainMenu() {
                 gridBoard.className=`grid ${i}`;
                 boardLay.append(gridBoard);                }
             }
-    
-   // function chooseState() {
-        // const gridLayout = document.querySelectorAll('.grid');
-        // for (let i=0; i<gridLayout.length; i++){
-        //    gridLayout[i].addEventListener('mouseover', ()=>{} );
-        //    gridLayout[i].addEventListener('click', boxClicked );         
-        // }
-        
-        // function boxClicked(e){
-        //     console.log('clicked '+ e.target.className);
-        //     if (!e.target.innerText){
-        //         boardArray.push('X');
-        //         e.target.innerText="X";
-        //         console.log(e);
-        //     }
-    
-        //     console.log(boardArray);
-        //     return
-        // }
-    
-    //}
-   
-    boardLayout();
 
+    boardLayout();
     return {
         gameModes: gameModes,
         boardLayout: boardLayout
