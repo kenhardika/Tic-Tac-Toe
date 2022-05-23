@@ -10,8 +10,17 @@ function startGame() {
         }
         layerOffAnimation();
         setTimeout(layerOffDisplay, 500);
+        layerChooseVs();
         mainMenu();
     }
+}
+
+function layerChooseVs() {
+    const contentLayer = document.querySelector('.contentLayerGame');
+    const divs = document.createElement('div');
+    divs.className="layerChooseVs";
+    divs.innerText="Choose Your Opponent";
+    contentLayer.appendChild(divs);
 }
 
 function mainMenu() {
@@ -24,12 +33,14 @@ function mainMenu() {
     
     vsAIBtn.onclick=()=>{ 
         clearState();
+        document.querySelector('.layerChooseVs').classList.add('layerOff');
         const players = gameModes("X","O", "AI", true);
         players.playGame();
     };
 
     vsHumanBtn.onclick=()=> {
         clearState();
+        document.querySelector('.layerChooseVs').classList.add('layerOff');
         const players = gameModes("X","O", "Human", true);
         players.playGame();
     };
