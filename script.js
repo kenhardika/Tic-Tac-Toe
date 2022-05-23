@@ -26,13 +26,12 @@ function mainMenu() {
     vsAIBtn.onclick=()=>{ 
         clearState();
         const players = gameModes("X","O", "AI", true);
-        
         players.playGame();
     };
+
     vsHumanBtn.onclick=()=> {
         clearState();
         const players = gameModes("X","O", "Human", true);
-        
         players.playGame();
     };
 
@@ -81,15 +80,19 @@ function mainMenu() {
                 //IF WIN GAME START AGAIN FROM CLEAR
                 
                 const checkWin = (num1,num2,num3)=> {
+                    let statusGame = false; //false means no winner yet
                     const nums = [num1, num2, num3];
                         function checkHor(){
                             for(const num of nums){
                                 if ( boardArray[num] == playerX && boardArray[num+1]== playerX && boardArray[num+2]== playerX ){
-                                    alert(`PLAYER ${playerX} WIN!`);
+                                    console.log(`PLAYER ${playerX} WIN!`);
+                                    statusGame = true;
+                                    setTimeout(clearState, 3000);
                                     }
-                                else if ( boardArray[num] == playerO && boardArray[num+1] == playerO && boardArray[num+2] == playerO)
-                                    {
-                                    alert(`PLAYER ${playerO} WIN!`);
+                                else if ( boardArray[num] == playerO && boardArray[num+1] == playerO && boardArray[num+2] == playerO){
+                                    console.log(`PLAYER ${playerO} WIN!`);
+                                    statusGame = true;
+                                    setTimeout(clearState, 3000);
                                     }
                                 else{}
                             }
@@ -99,27 +102,75 @@ function mainMenu() {
                         function checkVert(){
                             for(const num of nums){
                                 if ( boardArray[num] == playerX && boardArray[num+3]== playerX && boardArray[num+6]== playerX ){
-                                    alert(`PLAYER ${playerX} WIN!`);
+                                    console.log(`PLAYER ${playerX} WIN!`);
+                                    statusGame = true;
+                                    setTimeout(clearState, 3000);
                                     }
-                                else if ( boardArray[num] == playerO && boardArray[num+3] == playerO && boardArray[num+6] == playerO)
-                                    {
-                                    alert(`PLAYER ${playerO} WIN!`);
+                                else if ( boardArray[num] == playerO && boardArray[num+3] == playerO && boardArray[num+6] == playerO){
+                                    console.log(`PLAYER ${playerO} WIN!`);
+                                    statusGame = true;
+                                    setTimeout(clearState, 3000);
                                     }
                                 else{}
                             }
                             return                  
                         }
 
+                        function checkDiag1(){
+                            for(const num of nums){
+                                if ( boardArray[num] == playerX && boardArray[num+4]== playerX && boardArray[num+8]== playerX ){
+                                    console.log(`PLAYER ${playerX} WIN!`);
+                                    statusGame = true;
+                                    setTimeout(clearState, 3000);
+                                    }
+                                else if ( boardArray[num] == playerO && boardArray[num+4] == playerO && boardArray[num+8] == playerO){
+                                    console.log(`PLAYER ${playerO} WIN!`);
+                                    statusGame = true;
+                                    setTimeout(clearState, 3000);
+                                    }
+                                else{}
+                            }
+                            return                  
+                        }
+
+                        function checkDiag2(){
+                            for(const num of nums){
+                                if ( boardArray[num] == playerX && boardArray[num+2]== playerX && boardArray[num+4]== playerX ){
+                                    console.log(`PLAYER ${playerX} WIN!`);
+                                    statusGame = true;
+                                    setTimeout(clearState, 3000);
+                                    }
+                                else if ( boardArray[num] == playerO && boardArray[num+2] == playerO && boardArray[num+4] == playerO){
+                                    console.log(`PLAYER ${playerO} WIN!`);
+                                    statusGame = true;
+                                    setTimeout(clearState, 3000);
+                                    }
+                                else{}
+                            }
+                            return                  
+                        }
+
+                        function checkDraw() { // need more case for draw
+                            if(!statusGame) {
+                                console.log("GAME IS DRAW");
+                            }
+                            return 
+                        }
+
                     return {
-                        checkHor: checkHor,
-                        checkVert: checkVert
+                        checkHor,
+                        checkVert,
+                        checkDiag1,
+                        checkDiag2, 
+                        checkDraw
                     }
                 
                 }
                 checkWin(0,3,6).checkHor();
                 checkWin(0,1,2).checkVert();
-                
-                
+                checkWin(0).checkDiag1();
+                checkWin(2).checkDiag2();
+                //checkWin().checkDraw(); ----case fort draw need to be added
                 
                 // checkHor(0);
                 // checkHor(3);
