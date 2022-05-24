@@ -18,9 +18,18 @@ function startGame() {
 function layerChooseVs() {
     const contentLayer = document.querySelector('.contentLayerGame');
     const divs = document.createElement('div');
-    divs.className="layerChooseVs";
-    divs.innerText="↥ Choose Your Opponent ↥";
+    const para = document.createElement('p');
+    para.className='layerChooseVs';
+    divs.className="layerChooseDivs";
+    para.innerText="↥ Choose Your Opponent ↥";
+    
+    divs.appendChild(para);
     contentLayer.appendChild(divs);
+
+    
+    // setTimeout(layerOffAnimation, 500);
+    // setTimeout(layerOff, 1000);
+
 }
 
 function mainMenu() {
@@ -30,13 +39,27 @@ function mainMenu() {
     const vsAIBtn = document.getElementById('vsAIBtn');
     const vsHumanBtn = document.getElementById('vsHumanBtn');
     
+    function animateOff() {
+        function layerOffAnimation() {
+            document.querySelector('.layerChooseVs').style.opacity='0';
+            document.querySelector('.contentLayerDetails p').style.opacity='0';
+        }
+    
+        function layerOff() {
+            document.querySelector('.layerChooseDivs').className='layerOff';
+            document.querySelector('.contentLayerDetails p').className='layerOff';
+        }   
+        setTimeout(layerOffAnimation, 1);
+        setTimeout(layerOff, 500);            
+    }
     
     vsAIBtn.onclick=()=>{ 
         clearState(); //clear the boxes
         matchScoreX = []; // reset the score
         matchScoreO = [];
-        document.querySelector('.layerChooseVs').classList.add('layerOff'); // remove the choose opponent layer
-        document.querySelector('.contentLayerDetails').textContent='';// clear the display under the layer board
+        animateOff();
+        // document.querySelector('.layerChooseDivs').className='layerOff'; // remove the choose opponent layer
+        // document.querySelector('.contentLayerDetails').textContent='';// clear the display under the layer board
         const players = gameModes("X","O", "AI", true);
         players.playGame();
     };
@@ -45,8 +68,8 @@ function mainMenu() {
         clearState();
         matchScoreX = [];
         matchScoreO = [];
-        document.querySelector('.layerChooseVs').classList.add('layerOff');
-        document.querySelector('.contentLayerDetails').textContent='';
+        animateOff();
+        //document.querySelector('.contentLayerDetails').textContent='';
         const players = gameModes("X","O", "Human", true);
         players.playGame();
     };
@@ -253,15 +276,13 @@ function mainMenu() {
         displayRes.className = 'displayResult';
         capDisplay.innerText = 'X - O'
         displayRes.innerText = `${matchScoreX.length} - ${matchScoreO.length}`;
+        //displayRes.style.opacity='0';
         contentLayerDet.textContent='';
         contentLayerDet.append(capDisplay);
-        contentLayerDet.append(displayRes);
-        
-        //careful it only works if there is only one child node inside contentLayerDet
-        // if(contentLayerDet.childNodes.length !== 1) { // if there is already old score, it will remove the old score and update the new one
-        //     //console.log(contentLayerDet.childNodes[0]);
-        //   contentLayerDet.removeChild(contentLayerDet.childNodes[0]);
-        // }
+        contentLayerDet.append(displayRes);  
+
+        // setTimeout( ()=>{displayRes.style.opacity='0';},100)
+        // setTimeout( ()=>{contentLayerDet.textContent='';},400)
     }
 
     const matchWin = (player) =>{
@@ -278,7 +299,7 @@ function mainMenu() {
         ovrl.appendChild(congratsDis);
         ovrl.onclick = () => { 
             
-            const layerAnimation = () => {
+            const layerOffAnimation = () => {
                 congratsDis.style.opacity='0';
                 ovrl.style.opacity='0';
             }
@@ -287,14 +308,18 @@ function mainMenu() {
 
             }
             
-            setTimeout(layerAnimation, 500);
+            setTimeout(layerOffAnimation, 500);
             setTimeout(displayOff, 1000);
         };
 
         const resetMatchScore = () => { //reset match after 5 wins
             matchScoreX = [];
             matchScoreO = [];
-            document.querySelector('.contentLayerDetails').textContent='';
+            //document.querySelector('.contentLayerDetails').textContent='';
+            setTimeout( ()=>{
+                            document.querySelector('.displayResult').style.opacity='0';
+                            document.querySelector('.displayCaption').style.opacity='0';},10)
+            setTimeout( ()=>{document.querySelector('.contentLayerDetails').textContent='';},300)
         }
 
 
