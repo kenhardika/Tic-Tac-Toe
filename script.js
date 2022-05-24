@@ -264,13 +264,23 @@ function mainMenu() {
         // }
     }
 
-    const matchWin = () =>{
+    const matchWin = (player) =>{
         //create layer cover up whole content/body to congratulate you for winning the 5 rounds match while resetting the game like mainmenu()
+        const layerMenu = document.querySelector('.layerMenu');
+        const congratsDis = document.createElement('div');
+
+        congratsDis.className='congratsDisplay';
+        congratsDis.innerText=`Congratulations ${player}! You Won the Match`
+
+        layerMenu.append(congratsDis);
+        congratsDis.onclick = () => { congratsDis.className='layerOff' };
+
         const resetMatchScore = () => { //reset match after 5 wins
             matchScoreX = [];
             matchScoreO = [];
             document.querySelector('.contentLayerDetails').textContent='';
         }
+
 
         setTimeout(resetMatchScore, 3000);
     }
@@ -287,14 +297,7 @@ function mainMenu() {
         overlay.className="overlay";
         resultNotice.innerText=`Round ${result}! ${winner}!`;
         resultNotice.className="resultNotice";
-        
-        let displayOff =() => {
-            overlay.className="layerOff";
-        }
-        
-        overlay.appendChild(resultNotice);
-        contentMenu.append(overlay);
-        
+       
         const matchScore = (score) => {    
             if (score == 'X'){
                 matchScoreX.push('X');
@@ -311,10 +314,21 @@ function mainMenu() {
        // console.log(displayRes.childNodes[0] == null)
         showScore();
         
-        if( matchScoreX.length === 5 || matchScoreO === 5 ) {
-            matchWin();
+        if(matchScoreX.length <= 4 && matchScoreO.length <= 4 ) { //Oke gud enuf
+            let displayOff =() => {
+                overlay.className="layerOff";
+            }   
+            overlay.appendChild(resultNotice);
+            contentMenu.append(overlay);
+            setTimeout( displayOff, 3000);
+        } 
+        else if( matchScoreX.length === 5 ) { //matchScore must be first
+            matchWin('PLAYER');
         }
-        setTimeout( displayOff, 3000);
+        else if (matchScoreO.length === 5) {
+            matchWin('OTHER HUMAN'); // ini kalo yg menang AI hrs ada parameter lagi
+        }
+        
     }
 
     

@@ -294,6 +294,22 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     font-family: 'Lobster', cursive;
 }
 
+.congratsDisplay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    font-size: 32px;
+    font-family: 'Lobster', cursive;
+    background-color: rgba(255, 255, 255, 0.868);
+}
+
 .footerMenu {
     grid-column: 1/5;
     display: flex;
