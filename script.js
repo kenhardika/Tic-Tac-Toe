@@ -248,16 +248,31 @@ function mainMenu() {
     function showScore() {
         const contentLayerDet = document.querySelector('.contentLayerDetails');
         const displayRes = document.createElement('p');
+        const capDisplay = document.createElement('p');
+        capDisplay.classList = 'displayCaption'; 
         displayRes.className = 'displayResult';
-        displayRes.innerText = null;
-        displayRes.innerText = `PLAYER X:${matchScoreX.length} - PLAYER O:${matchScoreO.length}`;
+        capDisplay.innerText = 'X - O'
+        displayRes.innerText = `${matchScoreX.length} - ${matchScoreO.length}`;
+        contentLayerDet.textContent='';
+        contentLayerDet.append(capDisplay);
         contentLayerDet.append(displayRes);
         
         //careful it only works if there is only one child node inside contentLayerDet
-        if(contentLayerDet.childNodes.length !== 1) { // if there is already old score, it will remove the old score and update the new one
-            //console.log(contentLayerDet.childNodes[0]);
-          contentLayerDet.removeChild(contentLayerDet.childNodes[0]);
+        // if(contentLayerDet.childNodes.length !== 1) { // if there is already old score, it will remove the old score and update the new one
+        //     //console.log(contentLayerDet.childNodes[0]);
+        //   contentLayerDet.removeChild(contentLayerDet.childNodes[0]);
+        // }
+    }
+
+    const matchWin = () =>{
+        //create layer cover up whole content/body to congratulate you for winning the 5 rounds match while resetting the game like mainmenu()
+        const resetMatchScore = () => { //reset match after 5 wins
+            matchScoreX = [];
+            matchScoreO = [];
+            document.querySelector('.contentLayerDetails').textContent='';
         }
+
+        setTimeout(resetMatchScore, 3000);
     }
 
     let matchScoreX = [];
@@ -295,9 +310,14 @@ function mainMenu() {
         console.log("Skor adalah X: "+ matchScoreX.length + ' dan O: ' + matchScoreO.length);
        // console.log(displayRes.childNodes[0] == null)
         showScore();
+        
+        if( matchScoreX.length === 5 || matchScoreO === 5 ) {
+            matchWin();
+        }
         setTimeout( displayOff, 3000);
     }
 
+    
     function clearState() {
             boardArray.length = 0;
             document.querySelectorAll('.grid').forEach((grid)=>{grid.innerText=""});
