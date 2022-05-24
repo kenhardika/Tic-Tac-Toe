@@ -74,6 +74,8 @@ function mainMenu() {
             }
         }
         
+
+        
         //try to change chooseState into closed function closure
         const chooseState = () => {
 
@@ -121,24 +123,11 @@ function mainMenu() {
                 checkWin(0,1,2).checkVert();
                 checkWin(0).checkDiag1();
                 checkWin(2).checkDiag2();
-                //if(boardArray.filter(x => x =='X').length == 5 && checkWin().statusGame == false){ 
                 checkWin().checkDraw();
-                //}
-                // if (boardArray.filter(x => x =='X').length == 5) {
-                //     setTimeout(checkWin().checkDraw, 3100);
-                // }
-                // CHECK THE X 5s, then wait 2scs, check the statusGame
-                
             }
 
-            // function checkDrawState() {
-            //     if(boardArray.filter(x => x =='X').length == 5 && checkWin().statusGame == false){ 
-            //         checkWin().checkDraw();
-            //     }
-            // }
-
-         //false means no winner yet
-         let statusGame = false;
+         
+         let statusGame = false; //false means no winner yet
             const checkWin = (num1, num2, num3)=> {
                 const nums = [num1, num2, num3];
                     function checkHor(){
@@ -146,12 +135,14 @@ function mainMenu() {
                             if ( boardArray[num] == playerX && boardArray[num+1]== playerX && boardArray[num+2]== playerX ){
                                 statusGame = true;
                                 console.log(`PLAYER ${playerX} WIN! + ${statusGame}` );
-                                setTimeout(clearState, 3000);
+                                matchStatus("WIN", `${playerX}`);
+                                setTimeout(matchDoneState, 2000);
                                 }
                             else if ( boardArray[num] == playerO && boardArray[num+1] == playerO && boardArray[num+2] == playerO){
                                 statusGame = true;
                                 console.log(`PLAYER ${playerO} WIN!`);
-                                setTimeout(clearState, 3000);
+                                matchStatus("WIN", `${playerO}`);
+                                setTimeout(matchDoneState, 2000);
                                 }
                             else{}
                         }
@@ -163,12 +154,14 @@ function mainMenu() {
                             if ( boardArray[num] == playerX && boardArray[num+3]== playerX && boardArray[num+6]== playerX ){
                                 statusGame = true;
                                 console.log(`PLAYER ${playerX} WIN!`);
-                                setTimeout(matchDoneState, 3000);
+                                matchStatus("WIN", `${playerX}`);
+                                setTimeout(matchDoneState, 2000);
                                 }
                             else if ( boardArray[num] == playerO && boardArray[num+3] == playerO && boardArray[num+6] == playerO){
                                 statusGame = true;
                                 console.log(`PLAYER ${playerO} WIN!`);
-                                setTimeout(matchDoneState, 3000);
+                                matchStatus("WIN", `${playerO}`);
+                                setTimeout(matchDoneState, 2000);
                                 }
                             else{}
                         }
@@ -180,12 +173,14 @@ function mainMenu() {
                             if ( boardArray[num] == playerX && boardArray[num+4]== playerX && boardArray[num+8]== playerX ){
                                 statusGame = true;
                                 console.log(`PLAYER ${playerX} WIN!`);
-                                setTimeout(matchDoneState, 3000);
+                                matchStatus("WIN", `${playerX}`);
+                                setTimeout(matchDoneState, 2000);
                                 }
                             else if ( boardArray[num] == playerO && boardArray[num+4] == playerO && boardArray[num+8] == playerO){
                                 statusGame = true;
                                 console.log(`PLAYER ${playerO} WIN!`);
-                                setTimeout(matchDoneState, 3000);
+                                matchStatus("WIN", `${playerO}`);
+                                setTimeout(matchDoneState, 2000);
                                 }
                             else{}
                         }
@@ -197,12 +192,14 @@ function mainMenu() {
                             if ( boardArray[num] == playerX && boardArray[num+2]== playerX && boardArray[num+4]== playerX ){
                                 statusGame = true;
                                 console.log(`PLAYER ${playerX} WIN!`);
-                                setTimeout(matchDoneState, 3000);
+                                matchStatus("WIN", `${playerX}`);
+                                setTimeout(matchDoneState, 2000);
                                 }
                             else if ( boardArray[num] == playerO && boardArray[num+2] == playerO && boardArray[num+4] == playerO){
                                 statusGame = true;
                                 console.log(`PLAYER ${playerO} WIN!`);
-                                setTimeout(matchDoneState, 3000);
+                                matchStatus("WIN", `${playerO}`);
+                                setTimeout(matchDoneState, 2000);
                                 }
                             else{}
                         }
@@ -212,8 +209,9 @@ function mainMenu() {
                     function checkDraw() { 
                        if (boardArray.filter(x => x =='X').length == 5 && statusGame == false) {  //LMAO IT WORKS 
                             console.log("IT'S A DRAW"+ statusGame);
+                            matchStatus("DRAW", "");
                             //statusGame = false;
-                            setTimeout(matchDoneState, 3000);
+                            setTimeout(matchDoneState, 2000);
                         }
                         return 
                     }
@@ -243,6 +241,30 @@ function mainMenu() {
             playGame,
             chooseState,     
         }
+    }
+
+    function matchStatus(result, winner) {
+        const contentMenu = document.querySelector('.contentMenu')
+        const overlay = document.createElement('div');
+        const resultNotice = document.createElement('p');
+        overlay.className="overlay";
+        resultNotice.innerText=`Round ${result}! ${winner}!`;
+        resultNotice.className="resultNotice";
+        
+        let displayOff =() => {
+            overlay.className="layerOff";
+        }
+        
+        // overlay.onclick = () => { 
+        //     console.log('layer Clicked');
+        //     // overlay.classList.add("layerOff");
+        //     overlay.className="layerOff";
+        // }
+
+        overlay.appendChild(resultNotice);
+        contentMenu.append(overlay);
+        
+        setTimeout( displayOff, 3000);
     }
 
     function clearState() {

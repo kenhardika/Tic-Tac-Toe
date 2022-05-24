@@ -231,6 +231,37 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     height: 100px;
 }
 
+.overlay {
+    background-color: rgba(1, 1, 1, 0.092);
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.resultNotice {
+    /* position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; */
+    width: 344px;
+    height: 344px;
+    display: flex;
+    margin-top: 80px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
+    color: black;
+    background-color: #fefefeee;
+    border-radius: 20px;
+}
+
 .footerMenu {
     grid-column: 1/5;
     display: flex;
