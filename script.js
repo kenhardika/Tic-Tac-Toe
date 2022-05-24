@@ -36,6 +36,7 @@ function mainMenu() {
         matchScoreX = []; // reset the score
         matchScoreO = [];
         document.querySelector('.layerChooseVs').classList.add('layerOff'); // remove the choose opponent layer
+        document.querySelector('.contentLayerDetails').textContent='';// clear the display under the layer board
         const players = gameModes("X","O", "AI", true);
         players.playGame();
     };
@@ -45,6 +46,7 @@ function mainMenu() {
         matchScoreX = [];
         matchScoreO = [];
         document.querySelector('.layerChooseVs').classList.add('layerOff');
+        document.querySelector('.contentLayerDetails').textContent='';
         const players = gameModes("X","O", "Human", true);
         players.playGame();
     };
@@ -112,8 +114,6 @@ function mainMenu() {
                         xTurns = false;
                     }
                 }
-                //DO CHECK WIN FUNCTIONS
-                //IF WIN GAME START AGAIN FROM CLEAR
 
                 checkGame();
                 console.log(boardArray);
@@ -245,13 +245,30 @@ function mainMenu() {
         }
     }
     
+    function showScore() {
+        const contentLayerDet = document.querySelector('.contentLayerDetails');
+        const displayRes = document.createElement('p');
+        displayRes.className = 'displayResult';
+        displayRes.innerText = null;
+        displayRes.innerText = `PLAYER X:${matchScoreX.length} - PLAYER O:${matchScoreO.length}`;
+        contentLayerDet.append(displayRes);
+        
+        //careful it only works if there is only one child node inside contentLayerDet
+        if(contentLayerDet.childNodes.length !== 1) { // if there is already old score, it will remove the old score and update the new one
+            //console.log(contentLayerDet.childNodes[0]);
+          contentLayerDet.removeChild(contentLayerDet.childNodes[0]);
+        }
+    }
+
     let matchScoreX = [];
     let matchScoreO = [];
 
     function matchStatus(result, winner) {
-        const contentMenu = document.querySelector('.contentMenu')
+        const contentMenu = document.querySelector('.contentMenu');
+       
         const overlay = document.createElement('div');
         const resultNotice = document.createElement('p');
+
         overlay.className="overlay";
         resultNotice.innerText=`Round ${result}! ${winner}!`;
         resultNotice.className="resultNotice";
@@ -276,7 +293,8 @@ function mainMenu() {
         }
         matchScore(winner);
         console.log("Skor adalah X: "+ matchScoreX.length + ' dan O: ' + matchScoreO.length);
-
+       // console.log(displayRes.childNodes[0] == null)
+        showScore();
         setTimeout( displayOff, 3000);
     }
 
