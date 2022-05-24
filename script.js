@@ -19,7 +19,7 @@ function layerChooseVs() {
     const contentLayer = document.querySelector('.contentLayerGame');
     const divs = document.createElement('div');
     divs.className="layerChooseVs";
-    divs.innerText="Choose Your Opponent";
+    divs.innerText="↥ Choose Your Opponent ↥";
     contentLayer.appendChild(divs);
 }
 
@@ -267,13 +267,29 @@ function mainMenu() {
     const matchWin = (player) =>{
         //create layer cover up whole content/body to congratulate you for winning the 5 rounds match while resetting the game like mainmenu()
         const layerMenu = document.querySelector('.layerMenu');
+        const ovrl = document.createElement('div');
         const congratsDis = document.createElement('div');
 
+        ovrl.className='overlay';
         congratsDis.className='congratsDisplay';
         congratsDis.innerText=`Congratulations ${player}! You Won the Match`
+        
+        layerMenu.append(ovrl);
+        ovrl.appendChild(congratsDis);
+        ovrl.onclick = () => { 
+            
+            const layerAnimation = () => {
+                congratsDis.style.opacity='0';
+                ovrl.style.opacity='0';
+            }
+            const displayOff = () => {
+            ovrl.className='layerOff'; 
 
-        layerMenu.append(congratsDis);
-        congratsDis.onclick = () => { congratsDis.className='layerOff' };
+            }
+            
+            setTimeout(layerAnimation, 500);
+            setTimeout(displayOff, 1000);
+        };
 
         const resetMatchScore = () => { //reset match after 5 wins
             matchScoreX = [];
@@ -315,12 +331,20 @@ function mainMenu() {
         showScore();
         
         if(matchScoreX.length <= 4 && matchScoreO.length <= 4 ) { //Oke gud enuf
+            
+            let displayOffAnimate = () => {
+                resultNotice.style.opacity='0';
+                overlay.style.opacity='0'
+            }
+
             let displayOff =() => {
                 overlay.className="layerOff";
             }   
+
             overlay.appendChild(resultNotice);
             contentMenu.append(overlay);
-            setTimeout( displayOff, 3000);
+            setTimeout(displayOffAnimate, 2500);
+            setTimeout(displayOff, 3000);
         } 
         else if( matchScoreX.length === 5 ) { //matchScore must be first
             matchWin('PLAYER');
