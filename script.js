@@ -32,14 +32,18 @@ function mainMenu() {
     
     
     vsAIBtn.onclick=()=>{ 
-        clearState();
-        document.querySelector('.layerChooseVs').classList.add('layerOff');
+        clearState(); //clear the boxes
+        matchScoreX = []; // reset the score
+        matchScoreO = [];
+        document.querySelector('.layerChooseVs').classList.add('layerOff'); // remove the choose opponent layer
         const players = gameModes("X","O", "AI", true);
         players.playGame();
     };
 
     vsHumanBtn.onclick=()=> {
         clearState();
+        matchScoreX = [];
+        matchScoreO = [];
         document.querySelector('.layerChooseVs').classList.add('layerOff');
         const players = gameModes("X","O", "Human", true);
         players.playGame();
@@ -47,9 +51,7 @@ function mainMenu() {
 
     //game modes using factory
     const gameModes = (playerX, playerO, mode, xTurns) => {
-
         console.log(xTurns + ' iniXturns')
-
         const playGame = () => {
             console.log('PlayGame')
             // I use this line so the chooseState function will not run twice if I call it again. Any solution?
@@ -242,6 +244,9 @@ function mainMenu() {
             chooseState,     
         }
     }
+    
+    let matchScoreX = [];
+    let matchScoreO = [];
 
     function matchStatus(result, winner) {
         const contentMenu = document.querySelector('.contentMenu')
@@ -255,15 +260,23 @@ function mainMenu() {
             overlay.className="layerOff";
         }
         
-        // overlay.onclick = () => { 
-        //     console.log('layer Clicked');
-        //     // overlay.classList.add("layerOff");
-        //     overlay.className="layerOff";
-        // }
-
         overlay.appendChild(resultNotice);
         contentMenu.append(overlay);
         
+        const matchScore = (score) => {    
+            if (score == 'X'){
+                matchScoreX.push('X');
+                // console.log(matchScoreX.filter(x => x =='X').length);
+            }
+            else if(score == 'O')
+            {
+                matchScoreO.push('O')
+                // console.log(matchScoreO.filter(o => o =='O').length);
+            }
+        }
+        matchScore(winner);
+        console.log("Skor adalah X: "+ matchScoreX.length + ' dan O: ' + matchScoreO.length);
+
         setTimeout( displayOff, 3000);
     }
 
