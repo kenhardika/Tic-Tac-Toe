@@ -9,10 +9,46 @@ function startGame() {
             document.querySelector('.layerStartModal').classList.add('layerOff')
         }
         layerOffAnimation();
-        setTimeout(layerOffDisplay, 500);
+        setTimeout(layerOffDisplay, 500);       
         layerChooseVs();
-        mainMenu();
+        setTimeout(usernameInput, 500); 
     }
+}
+
+function usernameInput(){
+    const layerModal = document.querySelector('.inputMod');
+    document.addEventListener('submit', submitUser);
+  
+    layerModal.style.display='flex'; //overlay juga kena flex
+    
+    function submitUser(e){
+        e.preventDefault();
+        const username = document.getElementById('inputUsername').value; 
+        
+        document.querySelector('.inputMod').className='layerOff';
+        document.querySelector('.inputModal').className='layerOff';
+        mainMenu(username);            
+    } 
+
+
+
+    // const layerMenu = document.querySelector('.layerMenu');
+    // const overlay = document.createElement('div');
+    // const inputModal = document.createElement('div');
+    // const inputCaption = document.createElement('p');
+    // const inputForms = document.createElement('form');
+    // const inputLabel = document.createElement('label');
+    // const inputUser = document.createElement('input');
+
+
+    // overlay.className='overlay';
+    // inputModal.className='inputModal';
+    // inputCaption.className='inputCaption';
+    // inputForms.className='form';
+    // inputForms.action='#';
+
+    // overlay.appendChild(inputModal);
+    // layerMenu.append(overlay)
 }
 
 function layerChooseVs() {
@@ -32,7 +68,8 @@ function layerChooseVs() {
 
 }
 
-function mainMenu() {
+function mainMenu(username) {
+    console.log(username);
     //button default for gameModes, masih pabalatak
     let boardArray = ["not", "empty"];
     let playExecuted = false;
@@ -292,6 +329,7 @@ function mainMenu() {
         const congratsDis = document.createElement('div');
 
         ovrl.className='overlay';
+        ovrl.style.display='flex';
         congratsDis.className='congratsDisplay';
         congratsDis.innerText=`Congratulations ${player}! You Won the Match`
         
@@ -304,6 +342,7 @@ function mainMenu() {
                 ovrl.style.opacity='0';
             }
             const displayOff = () => {
+            ovrl.style.display='';
             ovrl.className='layerOff'; 
 
             }
@@ -336,9 +375,10 @@ function mainMenu() {
         const resultNotice = document.createElement('p');
 
         overlay.className="overlay";
+        overlay.style.display='flex';
         resultNotice.innerText=`Round ${result}! ${winner}!`;
         resultNotice.className="resultNotice";
-       
+
         const matchScore = (score) => {    
             if (score == 'X'){
                 matchScoreX.push('X');
@@ -363,6 +403,7 @@ function mainMenu() {
             }
 
             let displayOff =() => {
+                overlay.style.display='';
                 overlay.className="layerOff";
             }   
 

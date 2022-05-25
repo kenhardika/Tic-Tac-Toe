@@ -30,9 +30,22 @@
         </div> 
     </div>
 
+    <div class="inputMod overlay">
+        <div class="inputModal">
+            <div class="inputCaption">
+                What's your name?
+            </div>
+
+            <form action="#" class="form">
+                <label for="username"></label>
+                <input type="text" name="username" id="inputUsername" placeholder="Input your username or name" maxlength="10" required >
+                <button id="submitUsername" type="submit">submit</button>
+            </form>
+               
+        </div>
+    </div>
 
     <div class="layerMenu">
-
         <div class="headerMenu">
                 <div class="tictacGif">
                     <img src="./Assets/tictac.gif" alt="tictactoe">
@@ -52,12 +65,14 @@
         </div>        
 
         <div class="contentMenu">
-
             <div class="contentLayerUsers">
-
-                <button id="vsAIBtn"> Versus AI </button>
-                <button id="vsHumanBtn"> Versus Human </button>
-
+                <div class="buttonSection">
+                    <button id="vsAIBtn"> Versus AI </button>
+                    <button id="vsHumanBtn"> Versus Human </button>
+                </div>
+                <div class="playerSection">
+                        current player here
+                </div>
             </div>
 
             <div class="contentLayerGame">
