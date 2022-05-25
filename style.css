@@ -339,6 +339,8 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
 
     font-size: 40px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    user-select:none;
 }
 
 .overlay {

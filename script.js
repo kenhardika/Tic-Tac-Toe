@@ -91,11 +91,13 @@ function mainMenu(username) {
         function layerOffAnimation() {
             document.querySelector('.layerChooseVs').style.opacity='0';
             document.querySelector('.contentLayerDetails p').style.opacity='0';
+            document.querySelector('.displayResult').style.opacity="0";
         }
     
         function layerOff() {
-            document.querySelector('.layerChooseDivs').className='layerOff';
+            document.querySelector('.layerChooseDivs').style.display='none';
             document.querySelector('.contentLayerDetails p').className='layerOff';
+            document.querySelector('.displayResult').style.display='none';
         }   
         setTimeout(layerOffAnimation, 1);
         setTimeout(layerOff, 500);            
