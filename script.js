@@ -390,7 +390,7 @@ function mainMenu(username) {
         }
 
 
-        setTimeout(resetMatchScore, 3000);
+        setTimeout(resetMatchScore, 1900);
     }
 
     let matchScoreX = [];
