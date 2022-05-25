@@ -68,7 +68,7 @@ function layerChooseVs() {
 
     para.className='layerChooseVs';
     divs.className="layerChooseDivs";
-    para.innerText="↥ Choose Your Opponent ↥";
+    para.innerText="Choose Your Opponent";
     
     
     para.appendChild(paraBtnClass);
@@ -103,7 +103,7 @@ function mainMenu(username) {
     
     const welcomeUsername = () => {
         const playerUser = document.querySelector('.playerSection');
-        playerUser.textContent = `Welcome to the game ${username}.`;
+        playerUser.textContent = `Welcome to the game ${username}`;
     }
     welcomeUsername();
 
