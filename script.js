@@ -8,6 +8,13 @@ function startGame() {
         function layerOffDisplay() {
             document.querySelector('.layerStartModal').classList.add('layerOff')
         }
+
+    function layerOffButton(){
+        document.getElementById('vsAIBtn').style.display='none';
+        document.getElementById('vsHumanBtn').style.display='none';
+    }
+
+        layerOffButton();
         layerOffAnimation();
         setTimeout(layerOffDisplay, 500);       
         layerChooseVs();
@@ -25,56 +32,60 @@ function usernameInput(){
         e.preventDefault();
         const username = document.getElementById('inputUsername').value; 
         
-        document.querySelector('.inputMod').className='layerOff';
-        document.querySelector('.inputModal').className='layerOff';
+        function layerOffAnimation() {
+            document.querySelector('.inputModal').style.opacity='0';
+            document.querySelector('.inputMod').style.opacity='0';     
+        }
+
+        function layerOffDisplay() {
+            document.querySelector('.inputMod').className='layerOff';
+            document.querySelector('.inputModal').className='layerOff';
+        }
+
+        setTimeout(layerOffAnimation, 100);
+        setTimeout(layerOffDisplay, 500);
+
         mainMenu(username);            
     } 
-
-
-
-    // const layerMenu = document.querySelector('.layerMenu');
-    // const overlay = document.createElement('div');
-    // const inputModal = document.createElement('div');
-    // const inputCaption = document.createElement('p');
-    // const inputForms = document.createElement('form');
-    // const inputLabel = document.createElement('label');
-    // const inputUser = document.createElement('input');
-
-
-    // overlay.className='overlay';
-    // inputModal.className='inputModal';
-    // inputCaption.className='inputCaption';
-    // inputForms.className='form';
-    // inputForms.action='#';
-
-    // overlay.appendChild(inputModal);
-    // layerMenu.append(overlay)
 }
 
 function layerChooseVs() {
     const contentLayer = document.querySelector('.contentLayerGame');
     const divs = document.createElement('div');
     const para = document.createElement('p');
+    const paraBtnClass = document.createElement('div')
+    const modeAIBtn = document.createElement('button');
+    const modeHumanBtn = document.createElement('button');
+
+    paraBtnClass.className='layerChooseButton';
+    modeAIBtn.id="modeAIBtn";
+    modeAIBtn.textContent='AI Mode';
+    modeHumanBtn.id="modeHumanBtn";
+    modeHumanBtn.textContent='Human Mode';
+
+    paraBtnClass.appendChild(modeAIBtn);
+    paraBtnClass.appendChild(modeHumanBtn);
+
     para.className='layerChooseVs';
     divs.className="layerChooseDivs";
     para.innerText="↥ Choose Your Opponent ↥";
     
+    
+    para.appendChild(paraBtnClass);
     divs.appendChild(para);
     contentLayer.appendChild(divs);
-
-    
-    // setTimeout(layerOffAnimation, 500);
-    // setTimeout(layerOff, 1000);
-
+    //contentLayer.appendChild(paraBtnClass);
 }
 
 function mainMenu(username) {
-    console.log(username);
+
     //button default for gameModes, masih pabalatak
     let boardArray = ["not", "empty"];
     let playExecuted = false;
     const vsAIBtn = document.getElementById('vsAIBtn');
     const vsHumanBtn = document.getElementById('vsHumanBtn');
+    const modeAIBtn = document.getElementById('modeAIBtn');
+    const modeHumanBtn = document.getElementById('modeHumanBtn');
     
     function animateOff() {
         function layerOffAnimation() {
@@ -90,30 +101,46 @@ function mainMenu(username) {
         setTimeout(layerOff, 500);            
     }
     
-    vsAIBtn.onclick=()=>{ 
+    const welcomeUsername = () => {
+        const playerUser = document.querySelector('.playerSection');
+        playerUser.textContent = `Welcome to the game ${username}.`;
+    }
+    welcomeUsername();
+
+    function layerOnButton(){
+        document.getElementById('vsAIBtn').style.display='';
+        document.getElementById('vsHumanBtn').style.display='';
+    }
+
+    function onclickBtnState(vs){
         clearState(); //clear the boxes
         matchScoreX = []; // reset the score
         matchScoreO = [];
         animateOff();
-        // document.querySelector('.layerChooseDivs').className='layerOff'; // remove the choose opponent layer
-        // document.querySelector('.contentLayerDetails').textContent='';// clear the display under the layer board
-        const players = gameModes("X","O", "AI", true);
+        layerOnButton();
+        const players = gameModes("X","O", vs, true, username);
         players.playGame();
+    }
+
+    vsAIBtn.onclick=()=>{ 
+        onclickBtnState('AI');
     };
 
     vsHumanBtn.onclick=()=> {
-        clearState();
-        matchScoreX = [];
-        matchScoreO = [];
-        animateOff();
-        //document.querySelector('.contentLayerDetails').textContent='';
-        const players = gameModes("X","O", "Human", true);
-        players.playGame();
+        onclickBtnState('Human');
     };
+    
+    modeAIBtn.onclick=()=>{
+        onclickBtnState('AI');
+    }
+    modeHumanBtn.onclick=()=>{
+        onclickBtnState('Human');
+    }
 
     //game modes using factory
-    const gameModes = (playerX, playerO, mode, xTurns) => {
-        console.log(xTurns + ' iniXturns')
+    const gameModes = (playerX, playerO, mode, xTurns, username) => {
+        console.log(xTurns + ' iniXturns');
+
         const playGame = () => {
             console.log('PlayGame')
             // I use this line so the chooseState function will not run twice if I call it again. Any solution?
@@ -137,9 +164,12 @@ function mainMenu(username) {
                 console.log(`Youre playing against ${mode}`);
             }
         }
-        
-
-        
+        //Username show while playing
+        const playerName = () => {
+            const playerUser = document.querySelector('.playerSection');
+            playerUser.textContent = `${username} is playing right now`;
+        }
+        playerName();
         //try to change chooseState into closed function closure
         const chooseState = () => {
 
@@ -318,8 +348,6 @@ function mainMenu(username) {
         contentLayerDet.append(capDisplay);
         contentLayerDet.append(displayRes);  
 
-        // setTimeout( ()=>{displayRes.style.opacity='0';},100)
-        // setTimeout( ()=>{contentLayerDet.textContent='';},400)
     }
 
     const matchWin = (player) =>{
@@ -413,7 +441,7 @@ function mainMenu(username) {
             setTimeout(displayOff, 3000);
         } 
         else if( matchScoreX.length === 5 ) { //matchScore must be first
-            matchWin('PLAYER');
+            matchWin(`${username}`);
         }
         else if (matchScoreO.length === 5) {
             matchWin('OTHER HUMAN'); // ini kalo yg menang AI hrs ada parameter lagi

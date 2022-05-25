@@ -120,6 +120,8 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
 .inputMod {
     z-index: 1;
     display: none;
+    opacity: 1;
+    transition: all 0.5s;
 }
 
 .layerOn{
@@ -139,6 +141,10 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     height:200px;
     z-index: 1;
     background-color: #fefefe;
+
+    opacity: 1;
+
+    transition: all 0.5s;
 }
 
 .inputCaption {
@@ -216,6 +222,8 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     /* top: 320px; */
     /* width: 40vh;
     height: 40vh; */
+    display: flex;
+    flex-direction: column;
     background-color: #fefefe;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 28px;
@@ -246,6 +254,18 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     background-color: #fefefe;
 }
 
+.layerChooseButton{
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    padding: 20px;
+    opacity: 1;
+}
+
 .contentLayerUsers {
     display: flex;
     flex-direction: column;
@@ -265,9 +285,12 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     align-items: flex-end;
     justify-content: center;
     height: 80px;
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 18px;
 }
 
-.contentLayerUsers button {
+.contentLayerUsers button, .layerChooseButton button {
     width: 200px;
     font-size: 20px;
     border-radius: 12px;
@@ -275,12 +298,12 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     transition: all 0.3s;
 }
 
-.contentLayerUsers button:hover {
+.contentLayerUsers button:hover, .layerChooseButton button:hover {
     color: #fefefe;
     background-color: black;
 }
 
-.contentLayerUsers button:active {
+.contentLayerUsers button:active, .layerChooseButton button:active {
     transform: translateY(3px);
     box-shadow: -3px 2px 2px gray;
 }
