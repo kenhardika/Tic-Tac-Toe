@@ -91,13 +91,18 @@ function mainMenu(username) {
         function layerOffAnimation() {
             document.querySelector('.layerChooseVs').style.opacity='0';
             document.querySelector('.contentLayerDetails p').style.opacity='0';
-            document.querySelector('.displayResult').style.opacity="0";
+            if(document.querySelector('.displayResult') !== null){
+                document.querySelector('.displayResult').style.opacity="0";
+            }
+            
         }
     
         function layerOff() {
             document.querySelector('.layerChooseDivs').style.display='none';
             document.querySelector('.contentLayerDetails p').className='layerOff';
-            document.querySelector('.displayResult').style.display='none';
+            if(document.querySelector('.displayResult')!== null){
+                document.querySelector('.displayResult').style.display='none';
+            }
         }   
         setTimeout(layerOffAnimation, 1);
         setTimeout(layerOff, 500);            
@@ -113,6 +118,11 @@ function mainMenu(username) {
         document.getElementById('vsAIBtn').style.display='';
         document.getElementById('vsHumanBtn').style.display='';
     }
+    
+    function changeTextBtn(AI,human){
+        document.getElementById('vsHumanBtn').innerText=human;
+        document.getElementById('vsAIBtn').innerText=AI;
+    }
 
     function onclickBtnState(vs){
         clearState(); //clear the boxes
@@ -126,10 +136,12 @@ function mainMenu(username) {
 
     vsAIBtn.onclick=()=>{ 
         onclickBtnState('AI');
+        changeTextBtn('Restart', 'Versus Human');
     };
 
     vsHumanBtn.onclick=()=> {
         onclickBtnState('Human');
+        changeTextBtn('Versus AI', 'Restart');
     };
     
     modeAIBtn.onclick=()=>{
@@ -141,199 +153,206 @@ function mainMenu(username) {
 
     //game modes using factory
     const gameModes = (playerX, playerO, mode, xTurns, username) => {
-        console.log(xTurns + ' iniXturns');
-
         const playGame = () => {
-            console.log('PlayGame')
-            // I use this line so the chooseState function will not run twice if I call it again. Any solution?
-            if (playExecuted == false){
-                chooseState();
-                playExecuted = true;
-            }
             if (mode=='Human'){
-                //chooseState();
-
+                 if (playExecuted == false){
+                    console.log('Choose mode to Human');
+                    gridListener();//this is the vital part, enable the grid boxes to process the game
+                    playExecuted = true;
+                 }
                 //toggle button changes 
                 vsAIBtn.classList.remove('btnActive');
                 vsHumanBtn.classList.add('btnActive');
-                console.log(`Youre playing against ${mode}`);
-            //  gridLayout.forEach((grid)=>{grid.innerText=""})
+                changeTextBtn('Versus AI', 'Restart');
             }
             else{
+                 if (playExecuted == false){
+                    console.log('Choose mode to AI');
+                    gridListener();
+                    playExecuted = true;
+                }
                 //toggle button changes
                 vsHumanBtn.classList.remove('btnActive');
                 vsAIBtn.classList.add('btnActive');
-                console.log(`Youre playing against ${mode}`);
+                changeTextBtn("Restart", "Versus Human");
             }
         }
+        
         //Username show while playing
         const playerName = () => {
             const playerUser = document.querySelector('.playerSection');
-            playerUser.textContent = `${username} is playing right now`;
+            playerUser.textContent = `${username} is playing against ${mode} right now`;
         }
         playerName();
-        //try to change chooseState into closed function closure
-        const chooseState = () => {
 
+        //declare grid to be listener
+        function gridListener() {
             const gridLayout = document.querySelectorAll('.grid');
-                for (let i=0; i<gridLayout.length; i++){
-                    gridLayout[i].addEventListener('mouseover', ()=>{} );
-                    gridLayout[i].addEventListener('click', boxClicked );         
-                }
-            function boxClicked(e){
-                console.log('clicked '+ e.target.className + " " + xTurns);
-                console.log(this.dataset.array); 
-                // check if is it the first move by checking the array, if its first move then X turns first.
-                if(boardArray.length == 0) {
-                    xTurns = true;
-                    boardArray = ['','','','','','','','',''];
-                }
-                //check if the box already filled
-                if (!e.target.innerText) {
-                    //check if it is the "X" turns
-                    if(!xTurns) {
-                        console.log(this.dataset.array);
-                      
-                        boardArray.splice(this.dataset.array, 1, playerO);
-                        e.target.innerText=playerO;
-                        xTurns = true;
-                    }
-                    else{
-                        console.log(this.dataset.array);
-                 
-                        boardArray.splice(this.dataset.array, 1, playerX);
-                        e.target.innerText=playerX;
-                        xTurns = false;
-                    }
-                }
-
-                checkGame();
-                console.log(boardArray);
-                return
+            for (let i=0; i<gridLayout.length; i++){
+                gridLayout[i].addEventListener('mouseover', ()=>{} );
+                gridLayout[i].addEventListener('click', boxClicked );         
             }
-            
-            function checkGame() {
-                checkWin(0,3,6).checkHor();
-                checkWin(0,1,2).checkVert();
-                checkWin(0).checkDiag1();
-                checkWin(2).checkDiag2();
-                checkWin().checkDraw();
-            }
-
-         
-         let statusGame = false; //false means no winner yet
-            const checkWin = (num1, num2, num3)=> {
-                const nums = [num1, num2, num3];
-                    function checkHor(){
-                        for(const num of nums){
-                            if ( boardArray[num] == playerX && boardArray[num+1]== playerX && boardArray[num+2]== playerX ){
-                                statusGame = true;
-                                console.log(`PLAYER ${playerX} WIN! + ${statusGame}` );
-                                matchStatus("WIN", `${playerX}`);
-                                setTimeout(matchDoneState, 2000);
-                                }
-                            else if ( boardArray[num] == playerO && boardArray[num+1] == playerO && boardArray[num+2] == playerO){
-                                statusGame = true;
-                                console.log(`PLAYER ${playerO} WIN!`);
-                                matchStatus("WIN", `${playerO}`);
-                                setTimeout(matchDoneState, 2000);
-                                }
-                            else{}
-                        }
-                        return
-                    }       
-                
-                    function checkVert(){
-                        for(const num of nums){
-                            if ( boardArray[num] == playerX && boardArray[num+3]== playerX && boardArray[num+6]== playerX ){
-                                statusGame = true;
-                                console.log(`PLAYER ${playerX} WIN!`);
-                                matchStatus("WIN", `${playerX}`);
-                                setTimeout(matchDoneState, 2000);
-                                }
-                            else if ( boardArray[num] == playerO && boardArray[num+3] == playerO && boardArray[num+6] == playerO){
-                                statusGame = true;
-                                console.log(`PLAYER ${playerO} WIN!`);
-                                matchStatus("WIN", `${playerO}`);
-                                setTimeout(matchDoneState, 2000);
-                                }
-                            else{}
-                        }
-                        return                  
-                    }
-
-                    function checkDiag1(){
-                        for(const num of nums){
-                            if ( boardArray[num] == playerX && boardArray[num+4]== playerX && boardArray[num+8]== playerX ){
-                                statusGame = true;
-                                console.log(`PLAYER ${playerX} WIN!`);
-                                matchStatus("WIN", `${playerX}`);
-                                setTimeout(matchDoneState, 2000);
-                                }
-                            else if ( boardArray[num] == playerO && boardArray[num+4] == playerO && boardArray[num+8] == playerO){
-                                statusGame = true;
-                                console.log(`PLAYER ${playerO} WIN!`);
-                                matchStatus("WIN", `${playerO}`);
-                                setTimeout(matchDoneState, 2000);
-                                }
-                            else{}
-                        }
-                        return                  
-                    }
-
-                    function checkDiag2(){
-                        for(const num of nums){
-                            if ( boardArray[num] == playerX && boardArray[num+2]== playerX && boardArray[num+4]== playerX ){
-                                statusGame = true;
-                                console.log(`PLAYER ${playerX} WIN!`);
-                                matchStatus("WIN", `${playerX}`);
-                                setTimeout(matchDoneState, 2000);
-                                }
-                            else if ( boardArray[num] == playerO && boardArray[num+2] == playerO && boardArray[num+4] == playerO){
-                                statusGame = true;
-                                console.log(`PLAYER ${playerO} WIN!`);
-                                matchStatus("WIN", `${playerO}`);
-                                setTimeout(matchDoneState, 2000);
-                                }
-                            else{}
-                        }
-                        return                  
-                    }
-
-                    function checkDraw() { 
-                       if (boardArray.filter(x => x =='X').length == 5 && statusGame == false) {  //LMAO IT WORKS 
-                            console.log("IT'S A DRAW"+ statusGame);
-                            matchStatus("DRAW", "");
-                            //statusGame = false;
-                            setTimeout(matchDoneState, 2000);
-                        }
-                        return 
-                    }
-                    
-                return {
-                    checkHor,
-                    checkVert,
-                    checkDiag1,
-                    checkDiag2, 
-                    checkDraw, 
-                   // statusGame
-                }         
-            }
-
-            const matchDoneState = () => {
-                clearState();
-                statusGame = false;
-            }
-        
-        
         }
 
+        //check the game result per click
+        function checkGame() {
+            checkWin(0,3,6).checkHor();
+            checkWin(0,1,2).checkVert();
+            checkWin(0).checkDiag1();
+            checkWin(2).checkDiag2();
+            checkWin().checkDraw();
+        }
+
+        //box clicked functions
+        function boxClicked(e){
+        // check if is it the first move by checking the array, if its first move then X turns first.
+            if(boardArray.length == 0) {
+                xTurns = true;
+                boardArray = ['','','','','','','','',''];
+               
+            }
+            //check if the box already filled
+            if (!e.target.innerText) {
+                //check if it is the "X" turns
+                if(!xTurns) {
+                    if (mode =='AI') {
+                        //console.log('mode AI ON, AI CHOOSE State');
+                        let randomNum = Math.floor(Math.random() * 10);
+                        console.log(randomNum);
+                        console.log(this.dataset.array);
+                        boardArray.splice(this.dataset.array, 1, playerO);
+                        e.target.innerText = playerO;
+                        xTurns = true;
+                    }
+                    else if (mode =='Human') {
+                        console.log(this.dataset.array);
+                        boardArray.splice(this.dataset.array, 1, playerO);
+                        e.target.innerText = playerO;
+                        xTurns = true;
+                    }
+                }
+                else{
+                    console.log(this.dataset.array);
+                    boardArray.splice(this.dataset.array, 1, playerX);
+                    e.target.innerText=playerX;
+                    xTurns = false;
+                    
+                    console.log('AI Starts Moving after this')
+                }
+            }
+            checkGame();
+            console.log(boardArray);
+            return
+        }
+
+        let statusGame = false; //false means no winner yet
+        const checkWin = (num1, num2, num3)=> {
+            const nums = [num1, num2, num3];
+                function checkHor(){
+                    for(const num of nums){
+                        if ( boardArray[num] == playerX && boardArray[num+1]== playerX && boardArray[num+2]== playerX ){
+                            statusGame = true;
+                            console.log(`PLAYER ${playerX} WIN! + ${statusGame}` );
+                            matchStatus("WIN", `${playerX}`);
+                            setTimeout(matchDoneState, 2000);
+                            }
+                        else if ( boardArray[num] == playerO && boardArray[num+1] == playerO && boardArray[num+2] == playerO){
+                            statusGame = true;
+                            console.log(`PLAYER ${playerO} WIN!`);
+                            matchStatus("WIN", `${playerO}`);
+                            setTimeout(matchDoneState, 2000);
+                            }
+                        else{}
+                    }
+                    return
+                }       
+            
+                function checkVert(){
+                    for(const num of nums){
+                        if ( boardArray[num] == playerX && boardArray[num+3]== playerX && boardArray[num+6]== playerX ){
+                            statusGame = true;
+                            console.log(`PLAYER ${playerX} WIN!`);
+                            matchStatus("WIN", `${playerX}`);
+                            setTimeout(matchDoneState, 2000);
+                            }
+                        else if ( boardArray[num] == playerO && boardArray[num+3] == playerO && boardArray[num+6] == playerO){
+                            statusGame = true;
+                            console.log(`PLAYER ${playerO} WIN!`);
+                            matchStatus("WIN", `${playerO}`);
+                            setTimeout(matchDoneState, 2000);
+                            }
+                        else{}
+                    }
+                    return                  
+                }
+
+                function checkDiag1(){
+                    for(const num of nums){
+                        if ( boardArray[num] == playerX && boardArray[num+4]== playerX && boardArray[num+8]== playerX ){
+                            statusGame = true;
+                            console.log(`PLAYER ${playerX} WIN!`);
+                            matchStatus("WIN", `${playerX}`);
+                            setTimeout(matchDoneState, 2000);
+                            }
+                        else if ( boardArray[num] == playerO && boardArray[num+4] == playerO && boardArray[num+8] == playerO){
+                            statusGame = true;
+                            console.log(`PLAYER ${playerO} WIN!`);
+                            matchStatus("WIN", `${playerO}`);
+                            setTimeout(matchDoneState, 2000);
+                            }
+                        else{}
+                    }
+                    return                  
+                }
+
+                function checkDiag2(){
+                    for(const num of nums){
+                        if ( boardArray[num] == playerX && boardArray[num+2]== playerX && boardArray[num+4]== playerX ){
+                            statusGame = true;
+                            console.log(`PLAYER ${playerX} WIN!`);
+                            matchStatus("WIN", `${playerX}`);
+                            setTimeout(matchDoneState, 2000);
+                            }
+                        else if ( boardArray[num] == playerO && boardArray[num+2] == playerO && boardArray[num+4] == playerO){
+                            statusGame = true;
+                            console.log(`PLAYER ${playerO} WIN!`);
+                            matchStatus("WIN", `${playerO}`);
+                            setTimeout(matchDoneState, 2000);
+                            }
+                        else{}
+                    }
+                    return                  
+                }
+
+                function checkDraw() { 
+                    if (boardArray.filter(x => x =='X').length == 5 && statusGame == false) {  //LMAO IT WORKS 
+                        console.log("IT'S A DRAW"+ statusGame);
+                        matchStatus("DRAW", "");
+                        //statusGame = false;
+                        setTimeout(matchDoneState, 2000);
+                    }
+                    return 
+                }
+                
+            return {
+                checkHor,
+                checkVert,
+                checkDiag1,
+                checkDiag2, 
+                checkDraw, 
+                // statusGame
+            }         
+        }
+
+        const matchDoneState = () => {
+            clearState();
+            statusGame = false;
+        }
 
 
        
         return {
-            playGame,
-            chooseState,     
+            playGame,     
         }
     }
     
@@ -467,8 +486,8 @@ function mainMenu(username) {
                 boardLay.append(gridBoard);                
         }
     }
-
     boardLayout();
+    
     return {
         gameModes: gameModes,
         boardLayout: boardLayout
