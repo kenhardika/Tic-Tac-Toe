@@ -120,41 +120,56 @@ function mainMenu(username) {
     }
     
     function changeTextBtn(AI,human){
-        document.getElementById('vsHumanBtn').innerText=human;
-        document.getElementById('vsAIBtn').innerText=AI;
+        document.getElementById('vsHumanBtn').textContent=human;
+        document.getElementById('vsAIBtn').textContent=AI;
     }
 
-    function onclickBtnState(vs){
+    function onclickBtnState(){
         clearState(); //clear the boxes
         matchScoreX = []; // reset the score
         matchScoreO = [];
         animateOff();
         layerOnButton();
-        const players = gameModes("X","O", vs, true, username);
-        players.playGame();
     }
-
+    //let modeVS = '';
+    
     vsAIBtn.onclick=()=>{ 
-        onclickBtnState('AI');
+        onclickBtnState();
         changeTextBtn('Restart', 'Versus Human');
+        const players = gameModes("X","O", true, username);
+        players.playGame('AI');
+       // modeVS = 'AI';
     };
 
     vsHumanBtn.onclick=()=> {
-        onclickBtnState('Human');
+        onclickBtnState();
         changeTextBtn('Versus AI', 'Restart');
+        const players = gameModes("X","O", true, username);
+        players.playGame('Human');
+      //  modeVS = 'Human';
     };
     
     modeAIBtn.onclick=()=>{
-        onclickBtnState('AI');
+        onclickBtnState();
+        changeTextBtn('Restart', 'Versus Human');
+        const players = gameModes("X","O", true, username);
+        players.playGame('AI');
+     //   modeVS = 'AI';
     }
     modeHumanBtn.onclick=()=>{
-        onclickBtnState('Human');
+        onclickBtnState();
+        //changeTextBtn('Versus AI', 'Restart');
+        const players = gameModes("X","O", true, username);
+        players.playGame('Human');
+        //modeVS = 'Human';
     }
 
+    //how about using prototype to insert these stuff hmm
+    
     //game modes using factory
-    const gameModes = (playerX, playerO, mode, xTurns, username) => {
-        const playGame = () => {
-            if (mode=='Human'){
+    const gameModes = (playerX, playerO, xTurns, username) => {
+        const playGame = (modeVS) => {
+            if (modeVS == 'Human'){
                  if (playExecuted == false){
                     console.log('Choose mode to Human');
                     gridListener();//this is the vital part, enable the grid boxes to process the game
@@ -165,7 +180,7 @@ function mainMenu(username) {
                 vsHumanBtn.classList.add('btnActive');
                 changeTextBtn('Versus AI', 'Restart');
             }
-            else{
+            else if (modeVS =='AI') {
                  if (playExecuted == false){
                     console.log('Choose mode to AI');
                     gridListener();
@@ -176,75 +191,111 @@ function mainMenu(username) {
                 vsAIBtn.classList.add('btnActive');
                 changeTextBtn("Restart", "Versus Human");
             }
+
+            //Username show while playing
+            const playerName = () => {
+                const playerUser = document.querySelector('.playerSection');
+                playerUser.textContent = `${username} is playing against ${modeVS} right now`;
+            }
+            playerName();
+        
+             //box clicked functions
+            function boxClicked(e, modeVS){
+            //this is works well
+                if(document.querySelector('#vsAIBtn').textContent=='Restart') {
+                    modeVS = 'AI';
+                } 
+                else if(document.querySelector('#vsHumanBtn').textContent=='Restart'){
+                    modeVS = 'Human';
+                }
+
+            // check if is it the first move by checking the array, if its first move then X turns first.
+                if(boardArray.length == 0) {
+                    xTurns = true;
+                    boardArray = ['0','1','2','3','4','5','6','7','8'];
+                   
+                }
+                //check if the box already filled
+                if (!e.target.innerText) {
+                    //check if it is the "X" turns
+                    if(!xTurns) {
+                        //if (mode =='AI') {
+                            //console.log('mode AI ON, AI CHOOSE State');
+                            //let randomNum = Math.floor(Math.random() * 10);
+                            //console.log(randomNum + 'ini random number dari AI');
+                            //console.log(e.target); //e target harus sesuai dengan splice nanti
+    
+                           // boardArray.splice(randomNum, 1, playerO);
+                            
+                            //e.target.innerText = playerO;
+                            //xTurns = true;
+                        //}
+                        if (modeVS == 'Human') {
+                            console.log(this.dataset.array);
+                            boardArray.splice(this.dataset.array, 1, playerO);
+                            e.target.innerText = playerO;
+                            xTurns = true;
+                        }
+                    }
+                    else{
+                        //console.log(this.dataset.array);
+                        boardArray.splice(this.dataset.array, 1, playerX);
+                        e.target.innerText=playerX;
+                        xTurns = false;
+                        
+                        if(boardArray.filter(x => x =='X').length <= 4){
+                            if(modeVS == "AI"){
+
+                                let filtteredArray = boardArray.filter( x=> x!='X' && x!='O');
+                                function shuffleArray(array) {
+                                    let currentIndex = array.length;
+                                    let randomIndex;
+
+                                    while (currentIndex!=0){
+                                        randomIndex = Math.floor(Math.random()* currentIndex);
+                                        currentIndex--;
+                                        
+                                        [array[currentIndex], array[randomIndex]] = [
+                                            array[randomIndex], array[currentIndex]];
+                                    }
+                                    return array;
+                                }
+                                shuffleArray(filtteredArray);                    
+                                //console.log(filtteredArray[0]);
+                                boardArray.splice(filtteredArray[0], 1, playerO);
+                                //console.log(e.target.dataset.array);
+                                const AIchecks = document.querySelector(`.grid-${filtteredArray[0]}`);
+                                AIchecks.textContent=`${playerO}`;
+                                // document.querySelector('dataset=2');
+                                xTurns = true;
+                            }
+                        }    
+                    }            
+                }
+
+                //check the game result per click
+                function checkGame() {
+                    checkWin(0,3,6).checkHor();
+                    checkWin(0,1,2).checkVert();
+                    checkWin(0).checkDiag1();
+                    checkWin(2).checkDiag2();
+                    checkWin().checkDraw();
+                }
+
+                checkGame();
+                console.log(boardArray);
+                return
+            }
+            //declare grid to be listener
+            function gridListener() {
+                const gridLayout = document.querySelectorAll('.boardGame div');
+                for (let i=0; i<gridLayout.length; i++){
+                    gridLayout[i].addEventListener('mouseover', ()=>{} );
+                    gridLayout[i].addEventListener('click', boxClicked );         
+                }
+            }
         }
         
-        //Username show while playing
-        const playerName = () => {
-            const playerUser = document.querySelector('.playerSection');
-            playerUser.textContent = `${username} is playing against ${mode} right now`;
-        }
-        playerName();
-
-        //declare grid to be listener
-        function gridListener() {
-            const gridLayout = document.querySelectorAll('.grid');
-            for (let i=0; i<gridLayout.length; i++){
-                gridLayout[i].addEventListener('mouseover', ()=>{} );
-                gridLayout[i].addEventListener('click', boxClicked );         
-            }
-        }
-
-        //check the game result per click
-        function checkGame() {
-            checkWin(0,3,6).checkHor();
-            checkWin(0,1,2).checkVert();
-            checkWin(0).checkDiag1();
-            checkWin(2).checkDiag2();
-            checkWin().checkDraw();
-        }
-
-        //box clicked functions
-        function boxClicked(e){
-        // check if is it the first move by checking the array, if its first move then X turns first.
-            if(boardArray.length == 0) {
-                xTurns = true;
-                boardArray = ['','','','','','','','',''];
-               
-            }
-            //check if the box already filled
-            if (!e.target.innerText) {
-                //check if it is the "X" turns
-                if(!xTurns) {
-                    if (mode =='AI') {
-                        //console.log('mode AI ON, AI CHOOSE State');
-                        let randomNum = Math.floor(Math.random() * 10);
-                        console.log(randomNum);
-                        console.log(this.dataset.array);
-                        boardArray.splice(this.dataset.array, 1, playerO);
-                        e.target.innerText = playerO;
-                        xTurns = true;
-                    }
-                    else if (mode =='Human') {
-                        console.log(this.dataset.array);
-                        boardArray.splice(this.dataset.array, 1, playerO);
-                        e.target.innerText = playerO;
-                        xTurns = true;
-                    }
-                }
-                else{
-                    console.log(this.dataset.array);
-                    boardArray.splice(this.dataset.array, 1, playerX);
-                    e.target.innerText=playerX;
-                    xTurns = false;
-                    
-                    console.log('AI Starts Moving after this')
-                }
-            }
-            checkGame();
-            console.log(boardArray);
-            return
-        }
-
         let statusGame = false; //false means no winner yet
         const checkWin = (num1, num2, num3)=> {
             const nums = [num1, num2, num3];
@@ -349,8 +400,6 @@ function mainMenu(username) {
             statusGame = false;
         }
 
-
-       
         return {
             playGame,     
         }
@@ -473,7 +522,7 @@ function mainMenu(username) {
     
     function clearState() {
             boardArray.length = 0;
-            document.querySelectorAll('.grid').forEach((grid)=>{grid.innerText=""});
+            document.querySelectorAll('.boardGame div').forEach((grid)=>{grid.innerText=""});
             console.log('Board is Empty, Go Ahead');
     }
 
@@ -481,7 +530,7 @@ function mainMenu(username) {
       const boardLay = document.querySelector('.boardGame');
         for ( let i=0; i<9; i++) {
                 const gridBoard = document.createElement('div');
-                gridBoard.className=`grid ${i}`;
+                gridBoard.className=`grid-${i}`;
                 gridBoard.dataset.array = `${i}`;
                 boardLay.append(gridBoard);                
         }
@@ -493,8 +542,6 @@ function mainMenu(username) {
         boardLayout: boardLayout
     }
 }
-
-
 
 window.onload = () => {
 startGame();

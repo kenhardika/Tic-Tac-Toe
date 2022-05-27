@@ -326,7 +326,7 @@ h1:first-child:hover, h1:nth-child(2):hover, h1:nth-child(3):hover {
     grid-template-rows: repeat(3,100px);
 }
 
-.grid {
+.boardGame div {
     display: flex;
     align-items: center;
     justify-content: center;
