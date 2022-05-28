@@ -171,7 +171,7 @@ function mainMenu(username) {
         const playGame = (modeVS) => {
             if (modeVS == 'Human'){
                  if (playExecuted == false){
-                    console.log('Choose mode to Human');
+                   // console.log('Choose mode to Human');
                     gridListener();//this is the vital part, enable the grid boxes to process the game
                     playExecuted = true;
                  }
@@ -182,7 +182,7 @@ function mainMenu(username) {
             }
             else if (modeVS =='AI') {
                  if (playExecuted == false){
-                    console.log('Choose mode to AI');
+                   // console.log('Choose mode to AI');
                     gridListener();
                     playExecuted = true;
                 }
@@ -219,19 +219,8 @@ function mainMenu(username) {
                 if (!e.target.innerText) {
                     //check if it is the "X" turns
                     if(!xTurns) {
-                        //if (mode =='AI') {
-                            //console.log('mode AI ON, AI CHOOSE State');
-                            //let randomNum = Math.floor(Math.random() * 10);
-                            //console.log(randomNum + 'ini random number dari AI');
-                            //console.log(e.target); //e target harus sesuai dengan splice nanti
-    
-                           // boardArray.splice(randomNum, 1, playerO);
-                            
-                            //e.target.innerText = playerO;
-                            //xTurns = true;
-                        //}
                         if (modeVS == 'Human') {
-                            console.log(this.dataset.array);
+                           // console.log(this.dataset.array);
                             boardArray.splice(this.dataset.array, 1, playerO);
                             e.target.innerText = playerO;
                             xTurns = true;
@@ -283,7 +272,7 @@ function mainMenu(username) {
                 }
 
                 checkGame();
-                console.log(boardArray);
+               //console.log(boardArray);
                 return
             }
             //declare grid to be listener
@@ -303,13 +292,13 @@ function mainMenu(username) {
                     for(const num of nums){
                         if ( boardArray[num] == playerX && boardArray[num+1]== playerX && boardArray[num+2]== playerX ){
                             statusGame = true;
-                            console.log(`PLAYER ${playerX} WIN! + ${statusGame}` );
+                          //  console.log(`PLAYER ${playerX} WIN! + ${statusGame}` );
                             matchStatus("WIN", `${playerX}`);
                             setTimeout(matchDoneState, 2000);
                             }
                         else if ( boardArray[num] == playerO && boardArray[num+1] == playerO && boardArray[num+2] == playerO){
                             statusGame = true;
-                            console.log(`PLAYER ${playerO} WIN!`);
+                          //  console.log(`PLAYER ${playerO} WIN!`);
                             matchStatus("WIN", `${playerO}`);
                             setTimeout(matchDoneState, 2000);
                             }
@@ -322,13 +311,13 @@ function mainMenu(username) {
                     for(const num of nums){
                         if ( boardArray[num] == playerX && boardArray[num+3]== playerX && boardArray[num+6]== playerX ){
                             statusGame = true;
-                            console.log(`PLAYER ${playerX} WIN!`);
+                          //  console.log(`PLAYER ${playerX} WIN!`);
                             matchStatus("WIN", `${playerX}`);
                             setTimeout(matchDoneState, 2000);
                             }
                         else if ( boardArray[num] == playerO && boardArray[num+3] == playerO && boardArray[num+6] == playerO){
                             statusGame = true;
-                            console.log(`PLAYER ${playerO} WIN!`);
+                        //    console.log(`PLAYER ${playerO} WIN!`);
                             matchStatus("WIN", `${playerO}`);
                             setTimeout(matchDoneState, 2000);
                             }
@@ -341,13 +330,13 @@ function mainMenu(username) {
                     for(const num of nums){
                         if ( boardArray[num] == playerX && boardArray[num+4]== playerX && boardArray[num+8]== playerX ){
                             statusGame = true;
-                            console.log(`PLAYER ${playerX} WIN!`);
+                           // console.log(`PLAYER ${playerX} WIN!`);
                             matchStatus("WIN", `${playerX}`);
                             setTimeout(matchDoneState, 2000);
                             }
                         else if ( boardArray[num] == playerO && boardArray[num+4] == playerO && boardArray[num+8] == playerO){
                             statusGame = true;
-                            console.log(`PLAYER ${playerO} WIN!`);
+                           // console.log(`PLAYER ${playerO} WIN!`);
                             matchStatus("WIN", `${playerO}`);
                             setTimeout(matchDoneState, 2000);
                             }
@@ -360,13 +349,13 @@ function mainMenu(username) {
                     for(const num of nums){
                         if ( boardArray[num] == playerX && boardArray[num+2]== playerX && boardArray[num+4]== playerX ){
                             statusGame = true;
-                            console.log(`PLAYER ${playerX} WIN!`);
+                           // console.log(`PLAYER ${playerX} WIN!`);
                             matchStatus("WIN", `${playerX}`);
                             setTimeout(matchDoneState, 2000);
                             }
                         else if ( boardArray[num] == playerO && boardArray[num+2] == playerO && boardArray[num+4] == playerO){
                             statusGame = true;
-                            console.log(`PLAYER ${playerO} WIN!`);
+                          //  console.log(`PLAYER ${playerO} WIN!`);
                             matchStatus("WIN", `${playerO}`);
                             setTimeout(matchDoneState, 2000);
                             }
@@ -377,7 +366,7 @@ function mainMenu(username) {
 
                 function checkDraw() { 
                     if (boardArray.filter(x => x =='X').length == 5 && statusGame == false) {  //LMAO IT WORKS 
-                        console.log("IT'S A DRAW"+ statusGame);
+                       // console.log("IT'S A DRAW"+ statusGame);
                         matchStatus("DRAW", "");
                         //statusGame = false;
                         setTimeout(matchDoneState, 2000);
@@ -458,11 +447,8 @@ function mainMenu(username) {
                             document.querySelector('.displayCaption').style.opacity='0';},10)
             setTimeout( ()=>{document.querySelector('.contentLayerDetails').textContent='';},300)
         }
-
-
         setTimeout(resetMatchScore, 1900);
     }
-
     let matchScoreX = [];
     let matchScoreO = [];
 
@@ -489,7 +475,7 @@ function mainMenu(username) {
             }
         }
         matchScore(winner);
-        console.log("Skor adalah X: "+ matchScoreX.length + ' dan O: ' + matchScoreO.length);
+      //  console.log("Skor adalah X: "+ matchScoreX.length + ' dan O: ' + matchScoreO.length);
        // console.log(displayRes.childNodes[0] == null)
         showScore();
         
@@ -523,7 +509,7 @@ function mainMenu(username) {
     function clearState() {
             boardArray.length = 0;
             document.querySelectorAll('.boardGame div').forEach((grid)=>{grid.innerText=""});
-            console.log('Board is Empty, Go Ahead');
+        //    console.log('Board is Empty, Go Ahead');
     }
 
     const boardLayout = () => {
